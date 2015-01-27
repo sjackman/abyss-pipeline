@@ -94,7 +94,7 @@ foo:
 %-sealer_scaffold.fa: k$k-K$K-scaff/%-scaffolds.fa
 	abyss-sealer -v \
 		--print-flanks \
-		-k20 -k50 -k100 -k200 -k300 -k400 -k500 \
+		-L364 -k50 -k100 -k150 -k200 -k250 -k300 -k350 -k364 \
 		-o $*-sealer -S $< \
 		ecoli_merged.fastq ecoli_reads_1.fastq ecoli_reads_2.fastq
 
