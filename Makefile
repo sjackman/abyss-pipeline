@@ -2,6 +2,9 @@
 k=364
 K=32
 
+# Reference genome
+ref=NC_000913
+
 # Targets
 
 all: \
@@ -105,9 +108,20 @@ foo:
 %-sealer_scaftigs.fa: %-sealer_scaffold.fa
 	abyss-fatoagp -f $@ $< >$@.agp
 
+# Assemble the reference genome
+$(ref)-k%/ecoli-1.fa: $(ref).fa
+	mkdir -p $(ref)-k$*
+	ABYSS -v -k$* -e0 -t0 -c0 $< -o $@ -s $(ref)-k$*/ecoli-bubbles.fa 2>&1 |tee $@.log
+
 # Calculate assembly statistics
 %-assembly-stats.tsv: %-sealer_scaffold.fa %-sealer_scaftigs.fa
 	abyss-fac \
+		NC_000913-k64/ecoli-1.fa \
+		NC_000913-k100/ecoli-1.fa \
+		NC_000913-k200/ecoli-1.fa \
+		NC_000913-k300/ecoli-1.fa \
+		NC_000913-k364/ecoli-1.fa \
+		NC_000913-k416/ecoli-1.fa \
 		k416/ecoli-unitigs.fa \
 		k416/ecoli-contigs.fa \
 		k416/ecoli-scaffolds.fa \
