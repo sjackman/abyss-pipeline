@@ -11,7 +11,8 @@ all: \
 	k$k-K$K-scaff/ecoli-scaffolds.fa \
 	ecoli-sealer_scaffold.fa \
 	ecoli-sealer_scaftigs.fa \
-	ecoli-assembly-stats.tsv.md
+	ecoli-assembly-stats.tsv \
+	ecoli-assembly-stats.html
 
 other: \
 	k$k-K$K/ecoli-contigs.fa \
@@ -122,4 +123,6 @@ foo:
 %.html: %.md
 	pandoc -o $@ $<
 
-
+# Render HTML from RMarkdown
+%.html: %.rmd
+	Rscript -e 'rmarkdown::render("$<", "html_document")'
