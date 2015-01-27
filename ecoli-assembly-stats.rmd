@@ -2,9 +2,10 @@ Experimental ABySS assembly pipeline
 ================================================================================
 
 ```{r load-libraries, message=FALSE}
-library(tidyr)
 library(dplyr)
 library(ggplot2)
+library(knitr)
+library(tidyr)
 ```
 
 ```{r read-data}
@@ -15,6 +16,7 @@ data.orig <- read.delim("ecoli-assembly-stats.tsv", as.is = TRUE)
 data <- data.orig %>%
 	separate(name, c("Directory", "File"), "/") %>%
 	separate(File, c("Species", "Stage", "Ext")) %>%
+	select(-Ext) %>%
 	mutate(Directory = factor(Directory),
 		Stage = factor(Stage, unique(Stage)))
 ```
@@ -24,4 +26,8 @@ ggplot(data = data) +
 	aes(x = Stage, y = N50, color = Directory, shape = Directory, group = Directory) +
 	geom_point() +
 	geom_line()
+```
+
+```{r tabulate-data}
+kable(data)
 ```
