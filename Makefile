@@ -70,7 +70,9 @@ k$k-K$K/ecoli-scaffolds.fa: k$k-K$K/ecoli-contigs.fa
 # Scaffold without first contigging
 k$k-K$K-scaff/ecoli-scaffolds.fa: k$k-K$K/pe600-3.dist
 	mkdir -p k$k-K$K-scaff
-	ln -sf ../k$k-K$K/ecoli-3.fa k$k-K$K-scaff/ecoli-6.fa
+	ln -sf ../k$k-K$K/ecoli-3.fa k$k-K$K-scaff/
+	ln -sf ecoli-3.fa k$k-K$K-scaff/ecoli-unitigs.fa
+	ln -sf ecoli-3.fa k$k-K$K-scaff/ecoli-6.fa
 	ln -sf ../k$k-K$K/ecoli-3.dot k$k-K$K-scaff/ecoli-6.dot
 	ln -sf ../k$k-K$K/pe600-3.dist k$k-K$K-scaff/pe600-6.dist
 	abyss-todot -e k$k-K$K-scaff/ecoli-6.fa k$k-K$K-scaff/pe600-6.dist >k$k-K$K-scaff/pe600-6.dist.dot
@@ -106,10 +108,15 @@ foo:
 # Calculate assembly statistics
 %-assembly-stats.tsv: %-sealer_scaffold.fa %-sealer_scaftigs.fa
 	abyss-fac \
+		k416/ecoli-unitigs.fa \
+		k416/ecoli-contigs.fa \
+		k416/ecoli-scaffolds.fa \
+		k416/ecoli-scaftigs.fa \
 		k$k-K$K/ecoli-unitigs.fa \
 		k$k-K$K/ecoli-contigs.fa \
 		k$k-K$K/ecoli-scaffolds.fa \
 		k$k-K$K/ecoli-scaftigs.fa \
+		k$k-K$K-scaff/ecoli-unitigs.fa \
 		k$k-K$K-scaff/ecoli-scaffolds.fa \
 		k$k-K$K-scaff/ecoli-scaftigs.fa \
 		$^ \
