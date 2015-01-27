@@ -131,5 +131,5 @@ foo:
 	pandoc -o $@ $<
 
 # Render HTML from RMarkdown
-%.html: %.rmd
+%.html: %.rmd %.tsv
 	Rscript -e 'rmarkdown::render("$<", "html_document")'
