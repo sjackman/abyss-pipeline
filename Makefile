@@ -9,6 +9,8 @@ ref=NC_000913
 
 all: \
 	ecoli_merged.fastq \
+	k$k/ecoli-scaffolds.fa \
+	k$k/ecoli-scaftigs.fa \
 	k$k-K$K/ecoli-unitigs.fa \
 	k$k-K$K/pe600-3.dist \
 	k$k-K$K-scaff/ecoli-scaffolds.fa \
@@ -28,6 +30,18 @@ other: \
 # Merge overlapping reads using abyss-mergepairs
 %_merged.fastq: %_1.fq.gz %_2.fq.gz
 	abyss-mergepairs -q 15 -v -o $* $^ >$*_merged.tsv
+
+# Assemble scaffolds using a standard de Bruijn Graph
+k$k/%-scaffolds.fa: %_merged.fastq
+	mkdir -p k$k
+	$(shell which time) -p abyss-pe -C k$k \
+		name=ecoli \
+		k=$k l=40 s=1000 v=-v \
+		se='../ecoli_merged.fastq ../ecoli_reads_1.fastq ../ecoli_reads_2.fastq' \
+		pe='pe600' \
+		pe600='../ecoli_1.fq.gz ../ecoli_2.fq.gz'
+
+# Assemble using a paired dBG
 
 # Assemble unitigs
 k$k-K$K/%-unitigs.fa: %_merged.fastq
@@ -120,6 +134,10 @@ $(ref)-k%/ecoli-1.fa: $(ref).fa
 	abyss-fac \
 		$(ref)-k64/ecoli-1.fa \
 		$(ref)-k364/ecoli-1.fa \
+		k$k/ecoli-unitigs.fa \
+		k$k/ecoli-contigs.fa \
+		k$k/ecoli-scaffolds.fa \
+		k$k/ecoli-scaftigs.fa \
 		k416/ecoli-unitigs.fa \
 		k416/ecoli-contigs.fa \
 		k416/ecoli-scaffolds.fa \
