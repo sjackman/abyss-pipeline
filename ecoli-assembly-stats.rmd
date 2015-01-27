@@ -24,7 +24,7 @@ data <- data.orig %>%
 ```{r plot-data}
 ggplot(data = data) +
 	aes(x = Stage, y = N50, color = Directory, group = Directory) +
-	geom_point(position=position_jitter(width = 0.1, height = 0)) +
+	geom_point() +
 	geom_line() +
 	ylim(0, 200000)
 ```
