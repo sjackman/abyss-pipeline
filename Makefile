@@ -12,8 +12,8 @@ all: \
 	k$k-K$K/ecoli-unitigs.fa \
 	k$k-K$K/pe600-3.dist \
 	k$k-K$K-scaff/ecoli-scaffolds.fa \
-	ecoli-sealer_scaffold.fa \
-	ecoli-sealer_scaftigs.fa \
+	k$k-K$K-sealer/ecoli-scaffolds.fa \
+	k$k-K$K-sealer/ecoli-scaftigs.fa \
 	ecoli-assembly-stats.tsv \
 	ecoli-assembly-stats.html
 
@@ -97,15 +97,17 @@ foo:
 	ln -sf ecoli-8.fa ecoli-scaffolds.fa
 
 # Fill in gaps using ABySS-sealer
-%-sealer_scaffold.fa: k$k-K$K-scaff/%-scaffolds.fa
-	abyss-sealer -v \
+k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K-scaff/%-scaffolds.fa
+	mkdir -p k$k-K$K-sealer
+	abyss-sealer -v -j12 \
 		--print-flanks \
 		-L364 -k50 -k100 -k150 -k200 -k250 -k300 -k350 -k364 \
-		-o $*-sealer -S $< \
-		ecoli_merged.fastq ecoli_reads_1.fastq ecoli_reads_2.fastq
+		-o k$k-K$K-sealer/$* -S $< \
+		$*_merged.fastq $*_reads_1.fastq $*_reads_2.fastq
+	ln -s $*_scaffold.fa k$k-K$K-sealer/$*-scaffolds.fa
 
 # Convert scaffolds to scaftigs
-%-sealer_scaftigs.fa: %-sealer_scaffold.fa
+%-scaftigs.fa: %-scaffolds.fa
 	abyss-fatoagp -f $@ $< >$@.agp
 
 # Assemble the reference genome
@@ -114,7 +116,7 @@ $(ref)-k%/ecoli-1.fa: $(ref).fa
 	ABYSS -v -k$* -e0 -t0 -c0 $< -o $@ -s $(ref)-k$*/ecoli-bubbles.fa 2>&1 |tee $@.log
 
 # Calculate assembly statistics
-%-assembly-stats.tsv: %-sealer_scaffold.fa %-sealer_scaftigs.fa
+%-assembly-stats.tsv: k$k-K$K-sealer/%-scaffolds.fa k$k-K$K-sealer/%-scaftigs.fa
 	abyss-fac \
 		NC_000913-k64/ecoli-1.fa \
 		NC_000913-k100/ecoli-1.fa \
