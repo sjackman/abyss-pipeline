@@ -118,12 +118,8 @@ $(ref)-k%/ecoli-1.fa: $(ref).fa
 # Calculate assembly statistics
 %-assembly-stats.tsv: k$k-K$K-sealer/%-scaffolds.fa k$k-K$K-sealer/%-scaftigs.fa
 	abyss-fac \
-		NC_000913-k64/ecoli-1.fa \
-		NC_000913-k100/ecoli-1.fa \
-		NC_000913-k200/ecoli-1.fa \
-		NC_000913-k300/ecoli-1.fa \
-		NC_000913-k364/ecoli-1.fa \
-		NC_000913-k416/ecoli-1.fa \
+		$(ref)-k64/ecoli-1.fa \
+		$(ref)-k364/ecoli-1.fa \
 		k416/ecoli-unitigs.fa \
 		k416/ecoli-contigs.fa \
 		k416/ecoli-scaffolds.fa \
