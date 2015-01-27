@@ -113,6 +113,7 @@ foo:
 # Fill in gaps using ABySS-sealer
 k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K-scaff/%-scaffolds.fa
 	mkdir -p k$k-K$K-sealer
+	ln -sf ../k$k-K$K-scaff/$*-unitigs.fa k$k-K$K-sealer/
 	abyss-sealer -v -j12 \
 		--print-flanks \
 		-L364 -k50 -k100 -k150 -k200 -k250 -k300 -k350 -k364 \
@@ -146,9 +147,7 @@ $(ref)-k%/ecoli-1.fa: $(ref).fa
 		k$k-K$K/ecoli-contigs.fa \
 		k$k-K$K/ecoli-scaffolds.fa \
 		k$k-K$K/ecoli-scaftigs.fa \
-		k$k-K$K-scaff/ecoli-unitigs.fa \
-		k$k-K$K-scaff/ecoli-scaffolds.fa \
-		k$k-K$K-scaff/ecoli-scaftigs.fa \
+		k$k-K$K-sealer/ecoli-unitigs.fa \
 		$^ \
 		>$@
 
