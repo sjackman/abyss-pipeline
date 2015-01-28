@@ -160,5 +160,9 @@ $(ref)-k%/ecoli-1.fa: $(ref).fa
 	pandoc -o $@ $<
 
 # Render HTML from RMarkdown
-%.html: %.rmd %.tsv
+%.html: %.rmd
 	Rscript -e 'rmarkdown::render("$<", "html_document")'
+
+# Dependencies
+
+ecoli-assembly-stats.html: ecoli-assembly-stats.tsv

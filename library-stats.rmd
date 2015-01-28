@@ -1,0 +1,45 @@
+---
+title: Fragment size distribution of merged overlapping reads vs. aligned reads
+author: Shaun Jackman
+date: 2015-01-28
+---
+
++ Species: E.coli K-12 MG1655
++ Data: https://basespace.illumina.com/sample/3756762/Ecoli 
++ Merged overlapping reads using abyss-mergepairs -q 15
++ Aligned reads to an assembly of the same reads using ABySS 1.5.2
+
+```{r load-libraries, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(tidyr)
+```
+
+```{r read-data}
+merged.data <- read.table("ecoli_merged.fastq.hist",
+	col.names = c("Fragment.size", "Count"))
+aligned.data <- read.table("k364/pe600-3.hist",
+	col.names = c("Fragment.size", "Count"))
+data <- rbind(
+	merged.data %>% cbind(data.frame(Group = "Merged")),
+	aligned.data %>% cbind(data.frame(Group = "Aligned")))
+```
+
+```{r summarize-data}
+aligned.stats <- aligned.data %$%
+	rep.int(x = Fragment.size, times = Count) %>%
+	boxplot.stats(coef = 3)
+str(aligned.stats)
+```
+
+```{r plot-data, message = FALSE}
+ggplot(data = data) +
+	aes(x = Fragment.size, y = Count, group = Group, colour = Group) +
+	geom_point(size = 1) + geom_smooth() +
+	xlim(aligned.stats$stats[1], aligned.stats$stats[5])
+```
+
+```{r tabulate-data}
+kable(data)
+```
