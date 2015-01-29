@@ -13,6 +13,7 @@ date: 2015-01-28
 library(dplyr)
 library(ggplot2)
 library(knitr)
+library(magrittr)
 library(tidyr)
 ```
 
@@ -38,6 +39,31 @@ ggplot(data = data) +
 	aes(x = Fragment.size, y = Count, group = Group, colour = Group) +
 	geom_point(size = 1) + geom_smooth() +
 	xlim(aligned.stats$stats[1], aligned.stats$stats[5])
+```
+
+```{r remove-outliers}
+aligned.data.omit.outliers <- aligned.data %>%
+	filter(Fragment.size >= aligned.stats$stats[1]
+		& Fragment.size <= aligned.stats$stats[5])
+```
+
+```{r reshape-data}
+rep.aligned.data <- aligned.data.omit.outliers %$%
+	data.frame(Fragment.size = rep.int(Fragment.size, Count))
+```
+
+```{r fit-normal}
+normal.fit <- rep.aligned.data %$% list(
+	mean = mean(Fragment.size),
+	sd = sd(Fragment.size))
+unlist(normal.fit)
+
+ggplot(rep.aligned.data %>% sample_n(100000)) +
+	aes(x = Fragment.size) +
+	geom_histogram(binwidth = 50, aes(y = ..density..)) +
+	geom_density(aes(colour = "Empirical")) +
+	stat_function(fun = dnorm, aes(colour = "Normal"),
+		args = normal.fit %$% list(mean = mean, sd = sd))
 ```
 
 ```{r tabulate-data}
