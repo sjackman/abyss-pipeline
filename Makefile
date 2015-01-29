@@ -17,7 +17,8 @@ all: \
 	k$k-K$K-sealer/ecoli-scaffolds.fa \
 	k$k-K$K-sealer/ecoli-scaftigs.fa \
 	ecoli-assembly-stats.tsv \
-	ecoli-assembly-stats.html
+	ecoli-assembly-stats.html \
+	library-stats.html
 
 other: \
 	k$k-K$K/ecoli-contigs.fa \
