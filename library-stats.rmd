@@ -14,7 +14,9 @@ library(dplyr)
 library(ggplot2)
 library(knitr)
 library(magrittr)
+library(fitdistrplus)
 library(tidyr)
+library(truncnorm)
 ```
 
 ```{r read-data}
@@ -53,17 +55,56 @@ rep.aligned.data <- aligned.data.omit.outliers %$%
 ```
 
 ```{r fit-normal}
-normal.fit <- rep.aligned.data %$% list(
+aligned.normal.fit <- rep.aligned.data %$% data.frame(
 	mean = mean(Fragment.size),
 	sd = sd(Fragment.size))
-unlist(normal.fit)
+aligned.normal.fit
 
 ggplot(rep.aligned.data %>% sample_n(100000)) +
 	aes(x = Fragment.size) +
 	geom_histogram(binwidth = 50, aes(y = ..density..)) +
 	geom_density(aes(colour = "Empirical")) +
+	stat_function(fun = dnorm, aes(colour = "Normal"), args = aligned.normal.fit)
+```
+
+
+```{r fit-truncated-normal}
+merged.data.omit.outliers <- merged.data %>%
+	filter(Fragment.size >= aligned.stats$stats[1]
+		& Fragment.size <= aligned.stats$stats[5])
+
+rep.merged.data <- merged.data.omit.outliers %$%
+	data.frame(Fragment.size = rep.int(Fragment.size, Count))
+
+merged.normal.fit <- rep.merged.data %$% data.frame(
+	mean = mean(Fragment.size),
+	sd = sd(Fragment.size))
+merged.normal.fit
+
+merged.truncnorm.fix.arg <- data.frame(
+	a = min(rep.merged.data) %>% as.double,
+	b = max(rep.merged.data) %>% as.double)
+merged.truncnorm.fix.arg
+
+merged.truncnorm.fit <- fitdist(
+	rep.merged.data$Fragment.size %>% as.double,
+	"truncnorm",
+	start = merged.normal.fit,
+    fix.arg = merged.truncnorm.fix.arg)
+plot(merged.truncnorm.fit)
+```
+
+```{r plot-truncated-normal-fit}
+ggplot(rep.merged.data %>% sample_n(100000)) +
+	aes(x = Fragment.size) +
+	geom_histogram(binwidth = 25, aes(y = ..density..)) +
+	geom_density(aes(colour = "Empirical")) +
 	stat_function(fun = dnorm, aes(colour = "Normal"),
-		args = normal.fit %$% list(mean = mean, sd = sd))
+		args = merged.normal.fit) +
+	stat_function(fun = dtruncnorm, aes(colour = "Truncated normal"),
+		args = c(merged.truncnorm.fit$estimate, merged.truncnorm.fix.arg)) +
+	stat_function(fun = dtruncnorm, aes(colour = "Aligned normal"),
+		args = c(aligned.normal.fit, merged.truncnorm.fix.arg))
 ```
 
 ```{r tabulate-data}
