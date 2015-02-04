@@ -1,3 +1,6 @@
+# Number of threads
+j=12
+
 # ABySS parameters
 k=364
 K=32
@@ -111,14 +114,27 @@ foo:
 		|MergeContigs -v  -k364 -o ecoli-8.fa - ecoli-7.dot ecoli-7.path
 	ln -sf ecoli-8.fa ecoli-scaffolds.fa
 
+# Construct a Bloom filter
+ecoli.k%.bloom: ecoli_merged.fastq ecoli_reads_1.fastq ecoli_reads_2.fastq
+	abyss-bloom build -v -k$* -j$j -b500M -l2 $@ $^
+
 # Fill in gaps using ABySS-sealer
-k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K-scaff/%-scaffolds.fa
+k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K-scaff/%-scaffolds.fa \
+		%.k50.bloom \
+		%.k100.bloom \
+		%.k150.bloom \
+		%.k200.bloom \
+		%.k250.bloom \
+		%.k300.bloom \
+		%.k350.bloom \
+		%.k364.bloom
 	mkdir -p k$k-K$K-sealer
 	ln -sf ../k$k-K$K-scaff/$*-unitigs.fa k$k-K$K-sealer/
-	abyss-sealer -v -j12 \
+	abyss-sealer -v -j$j \
 		--print-flanks \
 		-L364 -k50 -k100 -k150 -k200 -k250 -k300 -k350 -k364 \
 		-o k$k-K$K-sealer/$* -S $< \
+		$(addprefix -i , $(wordlist 2, 99, $^)) \
 		$*_merged.fastq $*_reads_1.fastq $*_reads_2.fastq
 	ln -s $*_scaffold.fa k$k-K$K-sealer/$*-scaffolds.fa
 
