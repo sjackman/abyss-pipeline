@@ -149,6 +149,14 @@ k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K-scaff/%-scaffolds.fa \
 %-scaftigs.fa: %-scaffolds.fa
 	abyss-fatoagp -f $@ $< >$@.agp
 
+# Download the reference genome
+$(ref).fa:
+	curl -o $@ ftp://ftp.ncbi.nlm.nih.gov/genomes/Bacteria/Escherichia_coli_K_12_substr__MG1655_uid57779/NC_000913.fna
+
+# Download the reference genome
+$(ref).gff:
+	curl -O ftp://ftp.ncbi.nlm.nih.gov/genomes/Bacteria/Escherichia_coli_K_12_substr__MG1655_uid57779/NC_000913.gff
+
 # Assemble the reference genome
 $(ref)-k%/ecoli-1.fa: $(ref).fa
 	mkdir -p $(ref)-k$*
