@@ -120,20 +120,27 @@ ecoli.k%.bloom: ecoli_merged.fastq ecoli_reads_1.fastq ecoli_reads_2.fastq
 
 # Fill in gaps using ABySS-sealer
 k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K-scaff/%-scaffolds.fa \
+		%.k25.bloom \
 		%.k50.bloom \
+		%.k75.bloom \
 		%.k100.bloom \
+		%.k125.bloom \
 		%.k150.bloom \
+		%.k175.bloom \
 		%.k200.bloom \
+		%.k225.bloom \
 		%.k250.bloom \
+		%.k275.bloom \
 		%.k300.bloom \
+		%.k325.bloom \
 		%.k350.bloom \
 		%.k364.bloom
 	mkdir -p k$k-K$K-sealer
 	ln -sf ../k$k-K$K-scaff/$*-unitigs.fa k$k-K$K-sealer/
 	abyss-sealer -v -j$j \
 		--print-flanks \
-		-L364 -k50 -k100 -k150 -k200 -k250 -k300 -k350 -k364 \
-		-o k$k-K$K-sealer/$* -S $< \
+		--max-frag=2000 -L512 -k25 -k50 -k75 -k100 -k125 -k150 -k175 -k200 -k225 -k250 -k275 -k300 -k325 -k350 -k364 \
+		-o k$k-K$K-sealer/$* -t k$k-K$K-sealer/$*_trace.tsv -S $< \
 		$(addprefix -i , $(wordlist 2, 99, $^)) \
 		$*_merged.fastq $*_reads_1.fastq $*_reads_2.fastq
 	ln -s $*_scaffold.fa k$k-K$K-sealer/$*-scaffolds.fa
