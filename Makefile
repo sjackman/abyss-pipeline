@@ -21,6 +21,7 @@ all: \
 	k$k-K$K-sealer/ecoli-scaftigs.fa \
 	ecoli-assembly-stats.tsv \
 	ecoli-assembly-stats.html \
+	ecoli.quast/report.tsv \
 	library-stats.html
 
 other: \
@@ -120,30 +121,25 @@ ecoli.k%.bloom: ecoli_merged.fastq ecoli_reads_1.fastq ecoli_reads_2.fastq
 
 # Fill in gaps using ABySS-sealer
 k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K-scaff/%-scaffolds.fa \
-		%.k25.bloom \
 		%.k50.bloom \
 		%.k75.bloom \
 		%.k100.bloom \
-		%.k125.bloom \
 		%.k150.bloom \
-		%.k175.bloom \
 		%.k200.bloom \
-		%.k225.bloom \
 		%.k250.bloom \
 		%.k275.bloom \
 		%.k300.bloom \
-		%.k325.bloom \
 		%.k350.bloom \
 		%.k364.bloom
 	mkdir -p k$k-K$K-sealer
 	ln -sf ../k$k-K$K-scaff/$*-unitigs.fa k$k-K$K-sealer/
 	abyss-sealer -v -j$j \
 		--print-flanks \
-		--max-frag=2000 -L512 -k25 -k50 -k75 -k100 -k125 -k150 -k175 -k200 -k225 -k250 -k275 -k300 -k325 -k350 -k364 \
+		--max-frag=2000 -L512 -k50 -k75 -k100 -k150 -k200 -k250 -k275 -k300 -k350 -k364 \
 		-o k$k-K$K-sealer/$* -t k$k-K$K-sealer/$*_trace.tsv -S $< \
 		$(addprefix -i , $(wordlist 2, 99, $^)) \
 		$*_merged.fastq $*_reads_1.fastq $*_reads_2.fastq
-	ln -s $*_scaffold.fa k$k-K$K-sealer/$*-scaffolds.fa
+	ln -sf $*_scaffold.fa k$k-K$K-sealer/$*-scaffolds.fa
 
 # Convert scaffolds to scaftigs
 %-scaftigs.fa: %-scaffolds.fa
@@ -182,6 +178,17 @@ $(ref)-k%/ecoli-1.fa: $(ref).fa
 		k$k-K$K-sealer/ecoli-unitigs.fa \
 		$^ \
 		>$@
+
+# Analayze the assemblies using QUAST
+%.quast/report.tsv: \
+		$(ref)-k64/%-1.fa \
+		$(ref)-k364/%-1.fa \
+		k$k/%-scaffolds.fa \
+		k416/%-scaffolds.fa \
+		k$k-K$K/%-scaffolds.fa \
+		k$k-K$K-scaff/ecoli-scaffolds.fa \
+		k$k-K$K-sealer/%-scaffolds.fa
+	quast.py -fsL -o $*.quast -R $(ref).fa -G $(ref).gff $^
 
 # Convert TSV to Markdown
 %.tsv.md: %.tsv
