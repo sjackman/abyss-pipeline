@@ -100,7 +100,7 @@ k$k-K$K-scaff/ecoli-scaffolds.fa: k$k-K$K/pe600-3.dist
 	abyss-todot -e k$k-K$K-scaff/ecoli-6.fa k$k-K$K-scaff/pe600-6.dist >k$k-K$K-scaff/pe600-6.dist.dot
 	$(shell which time) -p abyss-pe -C k$k-K$K-scaff \
 		name=ecoli \
-		k=$k K=$K l=40 s=1000 v=-v \
+		k=$k K=$K l=40 s=1000 S=750 v=-v \
 		se='../ecoli_merged.fastq ../ecoli_reads_1.fastq ../ecoli_reads_2.fastq' \
 		pe='pe600' \
 		pe600='../ecoli_1.fq.gz ../ecoli_2.fq.gz' \
