@@ -93,19 +93,18 @@ k$k-K$K/ecoli-scaffolds.fa: k$k-K$K/ecoli-contigs.fa
 k$k-K$K-scaff/ecoli-scaffolds.fa: k$k-K$K/pe600-3.dist
 	mkdir -p k$k-K$K-scaff
 	ln -sf ../k$k-K$K/ecoli-3.fa k$k-K$K-scaff/
-	ln -sf ecoli-3.fa k$k-K$K-scaff/ecoli-unitigs.fa
 	ln -sf ecoli-3.fa k$k-K$K-scaff/ecoli-6.fa
+	ln -sf ecoli-3.fa k$k-K$K-scaff/ecoli-unitigs.fa
+	ln -sf ecoli-6.fa k$k-K$K-scaff/ecoli-contigs.fa
 	ln -sf ../k$k-K$K/ecoli-3.dot k$k-K$K-scaff/ecoli-6.dot
-	ln -sf ../k$k-K$K/pe600-3.dist k$k-K$K-scaff/pe600-6.dist
-	abyss-todot -e k$k-K$K-scaff/ecoli-6.fa k$k-K$K-scaff/pe600-6.dist >k$k-K$K-scaff/pe600-6.dist.dot
 	$(shell which time) -p abyss-pe -C k$k-K$K-scaff \
 		name=ecoli \
-		k=$k K=$K l=40 s=1000 S=750 v=-v \
+		k=$k K=$K l=50 s=750 v=-v \
 		se='../ecoli_merged.fastq ../ecoli_reads_1.fastq ../ecoli_reads_2.fastq' \
 		pe='pe600' \
 		pe600='../ecoli_1.fq.gz ../ecoli_2.fq.gz' \
-		-o ecoli-6.fa -o ecoli-6.dot -o pe600-6.dist.dot \
-		scaffolds scaftigs
+		-o ecoli-6.fa -o ecoli-6.dot \
+		mp-sam scaffolds scaftigs
 
 # Scaffold using abyss-scaffold
 foo:
