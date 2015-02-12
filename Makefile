@@ -128,13 +128,15 @@ k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K-scaff/%-scaffolds.fa \
 		%.k250.bloom \
 		%.k275.bloom \
 		%.k300.bloom \
+		%.k330.bloom \
 		%.k350.bloom \
-		%.k364.bloom
+		%.k355.bloom \
+		%.k360.bloom
 	mkdir -p k$k-K$K-sealer
 	ln -sf ../k$k-K$K-scaff/$*-unitigs.fa k$k-K$K-sealer/
 	abyss-sealer -v -j$j \
 		--print-flanks \
-		--max-frag=2000 -L512 -k50 -k75 -k100 -k150 -k200 -k250 -k275 -k300 -k350 -k364 \
+		--max-frag=2000 -L512 -k50 -k75 -k100 -k150 -k200 -k250 -k275 -k300 -k330 -k350 -k355 -k360 \
 		-o k$k-K$K-sealer/$* -t k$k-K$K-sealer/$*_trace.tsv -S $< \
 		$(addprefix -i , $(wordlist 2, 99, $^)) \
 		$*_merged.fastq $*_reads_1.fastq $*_reads_2.fastq
