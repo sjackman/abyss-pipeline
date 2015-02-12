@@ -106,14 +106,6 @@ k$k-K$K-scaff/ecoli-scaffolds.fa: k$k-K$K/pe600-3.dist
 		-o ecoli-6.fa -o ecoli-6.dot \
 		mp-sam scaffolds scaftigs
 
-# Scaffold using abyss-scaffold
-foo:
-	abyss-scaffold -v   -k364 -s1000 -n10 -g ecoli-6.path.dot  ecoli-6.dot pe600-6.dist.dot >ecoli-6.path
-	PathConsensus -v --dot -k364  -p0.9 -s ecoli-7.fa -g ecoli-7.dot -o ecoli-7.path ecoli-6.fa ecoli-6.dot ecoli-6.path
-	cat ecoli-6.fa ecoli-7.fa \
-		|MergeContigs -v  -k364 -o ecoli-8.fa - ecoli-7.dot ecoli-7.path
-	ln -sf ecoli-8.fa ecoli-scaffolds.fa
-
 # Construct a Bloom filter
 ecoli.k%.bloom: ecoli_merged.fastq ecoli_reads_1.fastq ecoli_reads_2.fastq
 	abyss-bloom build -v -k$* -j$j -b500M -l2 $@ $^
