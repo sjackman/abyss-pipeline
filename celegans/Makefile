@@ -21,7 +21,8 @@ all: \
 	k$k-K$K/celegans-unitigs.fa \
 	k$k-K$K/celegans-long-scaffs.fa \
 	assembly-stats.tsv \
-	assembly-stats.html
+	assembly-stats.html \
+	celegans.quast/report.tsv
 
 .PHONY: all clean
 .DELETE_ON_ERROR:
@@ -29,9 +30,23 @@ all: \
 
 # Download data
 
+# Download the reference genome
+$(ref).fa:
+	curl ftp://ftp.ensembl.org/pub/release-78/fasta/caenorhabditis_elegans/dna/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa.gz |gunzip -c >$@
+
+# Download gene annotations from Ensembl in GTF format
+$(ref).gtf:
+	curl ftp://ftp.ensembl.org/pub/release-78/gtf/caenorhabditis_elegans/Caenorhabditis_elegans.WBcel235.78.gtf.gz |gunzip -c >$@
+
+# Download gene annotations WormBase in GFF format
+$(ref).gff:
+	curl ftp://ftp.wormbase.org/pub/wormbase/species/c_elegans/gff/c_elegans.PRJNA13758.WS240.annotations.gff3.gz |gunzip -c >$@
+
+# ERX046316 2.5 kbp mate-pair
 data/ERR068453_%.fastq.bz2:
 	curl -o $@ ftp://ftp.ddbj.nig.ac.jp/ddbj_database/dra/fastq/ERA081/ERA081001/ERX046316/$(@F)
 
+# DRX007634 4.5 kbp mate-pair
 data/DRR008445_%.fastq.bz2:
 	curl -o $@ ftp://ftp.ddbj.nig.ac.jp/ddbj_database/dra/fastq/DRA000/DRA000967/DRX007634/$(@F)
 
@@ -231,10 +246,6 @@ k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K-scaff/%-scaffolds.fa \
 %-scaftigs.fa: %-scaffolds.fa
 	abyss-fatoagp -f $@ $< >$@.agp
 
-# Download the reference genome
-$(ref).fa:
-	curl ftp://ftp.ensembl.org/pub/release-78/fasta/caenorhabditis_elegans/dna/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa.gz |gunzip -c >$@
-
 # Assemble the reference genome
 $(ref)-k%/celegans-1.fa: $(ref).fa
 	mkdir -p $(ref)-k$*
@@ -269,14 +280,11 @@ assembly-stats.tsv: \
 
 # Analayze the assemblies using QUAST
 %.quast/report.tsv: \
-		$(ref)-k64/%-1.fa \
-		$(ref)-k364/%-1.fa \
-		k$k/%-scaffolds.fa \
-		k416/%-scaffolds.fa \
-		k$k-K$K/%-scaffolds.fa \
-		k$k-K$K-scaff/celegans-scaffolds.fa \
-		k$k-K$K-sealer/%-scaffolds.fa
-	quast.py -fsL -o $*.quast -R $(ref).fa -G $(ref).gff $^
+		sga-m500/sga-contigs.fa \
+		kraghavan-k64/celegans-scaffolds.fa \
+		k512/celegans-long-scaffs.fa \
+		k512-K96/celegans-long-scaffs.fa
+	quast.py -T$j -esL -o $*.quast -R $(ref).fa -G $(ref).gff $^
 
 # Convert TSV to Markdown
 %.tsv.md: %.tsv
