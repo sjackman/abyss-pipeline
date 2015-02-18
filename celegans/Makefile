@@ -90,7 +90,7 @@ $(ref).%.sam: %.sam $(ref).fa.bwt
 	sga rmdup -v -t$j $<
 
 # Overlap reads using SGA
-%.asqg.gz: %.fa %.bwt
+sga-m500/%.asqg.gz: %.fa %.bwt
 	sga overlap -v -t$j -m500 $<
 
 # Assemble reads using SGA
@@ -106,7 +106,7 @@ k$k/%-long-scaffs.fa:
 	mkdir -p k$k
 	$(shell which time) -p abyss-pe -C k$k \
 		name=celegans \
-		k=$k l=$l s=$s S=$S j=$j v=-v \
+		k=$k e=$e E=$E c=$c l=$l s=$s S=$S j=$j v=-v \
 		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
 		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz'
 
@@ -225,11 +225,16 @@ $(ref)-k%/celegans-1.fa: $(ref).fa
 	mkdir -p $(ref)-k$*
 	ABYSS -v -k$* -e0 -t0 -c0 $< -o $@ -s $(ref)-k$*/celegans-bubbles.fa 2>&1 |tee $@.log
 
-# Calculate assembly statistics
+# Make assembly symlinks
+
 bwa-%/WBcel235.bwa.fa: WBcel235.c-elegans_LongRead_all.sort.bam.%.bed.fa
 	mkdir -p $(@D)
-	ln -s ../$< $@
+	ln -sf ../$< $@
 
+sga-m500/sga-contigs.fa: sga-m500/c-elegans_LongRead_all.bfc.preprocess.rmdup.sga-contigs.fa
+	ln -sf $(<F) $@
+
+# Calculate assembly statistics
 assembly-stats.tsv: \
 		WBcel235-k64/celegans-1.fa \
 		WBcel235-k128/celegans-1.fa \
@@ -240,6 +245,7 @@ assembly-stats.tsv: \
 		kraghavan-k64/celegans-unitigs.fa \
 		k512/celegans-unitigs.fa \
 		k512-K96/celegans-unitigs.fa \
+		sga-m500/sga-contigs.fa \
 		kraghavan-k64/celegans-contigs.fa \
 		kraghavan-k64/celegans-scaffolds.fa \
 		k512-K96/celegans-long-scaffs.fa
