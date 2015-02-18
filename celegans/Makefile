@@ -47,25 +47,23 @@ $(ref).%.sam: %.sam $(ref).fa.bwt
 
 # bedtools
 
-# Compute a coverage histogram
-%.bam.depth: %.bam
-	bedtools genomecov -d -ibam $< |cut -f3 >$@
-
-%.bam.depth.bedgraph.gz: %.bam
-	bedtools genomecov -bga -ibam $< |gzip >$@
-
+# Determine regions with no coverage
 %.bam.depth0.bed: %.bam
 	bedtools genomecov -bga -ibam $< |awk '$$4 == 0' |cut -f1-3 >$@
 
+# Determine regions with 1+ coverage
 %.bam.depth1+.bed: %.bam
 	bedtools genomecov -bga -ibam $< |awk '$$4 > 0' |cut -f1-3 |bedtools merge >$@
 
+# Determine regions with 2+ coverage
 %.bam.depth2+.bed: %.bam
 	bedtools genomecov -bga -ibam $< |awk '$$4 > 1' |cut -f1-3 |bedtools merge >$@
 
+# Extract FASTA sequences from BED regions
 %.bed.fa: %.bed
 	bedtools getfasta -fi $(ref).fa -bed $< -fo $@
 
+# Determine the mean BAM coverage of BED regions
 %.bam.coverage: %.bam %.bam.depth1+.bed
 	bedtools coverage -d -abam $< -b $*.bam.depth1+.bed |datamash --header-out -g 1,2,3 mean 5 >$@
 
