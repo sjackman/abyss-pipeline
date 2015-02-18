@@ -107,9 +107,18 @@ sga-m500/%.asqg.gz: %.fa %.bwt
 %_merged.fastq: %_1.fq.gz %_2.fq.gz
 	abyss-mergepairs -q 15 -v -o $* $^ >$*_merged.tsv
 
-# Assemble scaffolds using a standard de Bruijn Graph
-k$k/%-long-scaffs.fa:
+# Assemble unitigs using a standard de Bruijn Graph
+k$k/%-unitigs.fa:
 	mkdir -p k$k
+	$(shell which time) -p abyss-pe -C k$k \
+		name=celegans \
+		k=$k e=$e E=$E c=$c l=$l s=$s S=$S j=$j v=-v \
+		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
+		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz' \
+		unitigs
+
+# Assemble scaffolds using a standard de Bruijn Graph
+k$k/%-long-scaffs.fa: k$k/%-unitigs.fa
 	$(shell which time) -p abyss-pe -C k$k \
 		name=celegans \
 		k=$k e=$e E=$E c=$c l=$l s=$s S=$S j=$j v=-v \
@@ -254,6 +263,7 @@ assembly-stats.tsv: \
 		sga-m500/sga-contigs.fa \
 		kraghavan-k64/celegans-contigs.fa \
 		kraghavan-k64/celegans-scaffolds.fa \
+		k512/celegans-long-scaffs.fa \
 		k512-K96/celegans-long-scaffs.fa
 	abyss-fac -e100286401 -s1000 $^ >$@
 
