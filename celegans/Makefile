@@ -226,30 +226,23 @@ $(ref)-k%/celegans-1.fa: $(ref).fa
 	ABYSS -v -k$* -e0 -t0 -c0 $< -o $@ -s $(ref)-k$*/celegans-bubbles.fa 2>&1 |tee $@.log
 
 # Calculate assembly statistics
-bwa/WBcel235.%.fa: WBcel235.c-elegans_LongRead_all.sort.bam.%.bed.fa
-	mkdir -p bwa
+bwa-%/WBcel235.bwa.fa: WBcel235.c-elegans_LongRead_all.sort.bam.%.bed.fa
+	mkdir -p $(@D)
 	ln -s ../$< $@
 
 assembly-stats.tsv: \
-		WBcel235-k55/celegans-1.fa \
 		WBcel235-k64/celegans-1.fa \
-		WBcel235-k96/celegans-1.fa \
 		WBcel235-k128/celegans-1.fa \
-		WBcel235-k192/celegans-1.fa \
 		WBcel235-k256/celegans-1.fa \
 		WBcel235-k512/celegans-1.fa \
-		bwa/WBcel235.depth1+.fa \
-		bwa/WBcel235.depth2+.fa \
-		kraghavan-k64/celegans-scaffolds.fa \
-		k64/celegans-unitigs.fa \
-		k128/celegans-unitigs.fa \
-		k256/celegans-unitigs.fa \
+		bwa-depth1+/WBcel235.bwa.fa \
+		bwa-depth2+/WBcel235.bwa.fa \
+		kraghavan-k64/celegans-unitigs.fa \
 		k512/celegans-unitigs.fa \
-		k384-K96/celegans-unitigs.fa \
 		k512-K96/celegans-unitigs.fa \
-		k640-K96/celegans-unitigs.fa \
-		k512-K96/celegans-long-scaffs.fa \
-		k640-K96/celegans-long-scaffs.fa
+		kraghavan-k64/celegans-contigs.fa \
+		kraghavan-k64/celegans-scaffolds.fa \
+		k512-K96/celegans-long-scaffs.fa
 	abyss-fac -e100286401 -s1000 $^ >$@
 
 # Analayze the assemblies using QUAST

@@ -25,10 +25,10 @@ data <- data.orig %>%
 
 ```{r plot-data}
 ggplot(data = data) +
-	aes(x = Stage, y = N50, color = Directory, group = Directory) +
+	aes(x = Stage, y = NG50, color = Directory, group = Directory) +
 	geom_point() +
 	geom_line() +
-	ylim(0, 200000)
+	ylim(0, NA)
 ```
 
 ```{r tabulate-data}
