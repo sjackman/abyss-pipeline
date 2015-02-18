@@ -19,7 +19,7 @@ data <- data.orig %>%
 	separate(name, c("Directory", "File"), "/") %>%
 	separate(File, c("Species", "Stage", "Ext"), extra = "drop") %>%
 	select(-Ext) %>%
-	mutate(Directory = factor(Directory),
+	mutate(Directory = factor(Directory, unique(Directory)),
 		Stage = factor(Stage, unique(Stage)))
 ```
 
