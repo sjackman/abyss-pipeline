@@ -27,6 +27,14 @@ all: \
 .DELETE_ON_ERROR:
 .SECONDARY:
 
+# Download data
+
+data/ERR068453_%.fastq.bz2:
+	curl -o $@ ftp://ftp.ddbj.nig.ac.jp/ddbj_database/dra/fastq/ERA081/ERA081001/ERX046316/$(@F)
+
+data/DRR008445_%.fastq.bz2:
+	curl -o $@ ftp://ftp.ddbj.nig.ac.jp/ddbj_database/dra/fastq/DRA000/DRA000967/DRX007634/$(@F)
+
 # BWA
 
 # Index the reference
