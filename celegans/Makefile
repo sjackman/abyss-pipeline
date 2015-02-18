@@ -8,8 +8,8 @@ l=40
 s=500
 S=500
 e=2
-E=1
-c=2
+E=0
+c=1.01
 
 # Reference genome
 ref=WBcel235
