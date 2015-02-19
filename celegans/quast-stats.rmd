@@ -36,6 +36,7 @@ ggplot(data = data) +
 		color = Directory, group = Directory, shape = Stage) +
 	geom_point() +
 	geom_line() +
+	xlim(0, NA) +
 	ylim(0, NA)
 ```
 
