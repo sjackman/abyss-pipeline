@@ -44,7 +44,7 @@ Moleculo
 
 [HiSeq 2500: TruSeq Synthetic Long-Read DNA Prep: Long-Read Assembly - C. elegans](https://basespace.illumina.com/projects/11270265/)
 
-n       |n:500  |L50    |min    |N80    |N50    |N20    |E-size |max    |sum     |name
-------  |------ |------ |------ |------ |------ |------ |------ |------ |------  |------
-190545  |190545 |56956  |1500   |4867   |9125   |10509  |8030   |21933  |1.182e9 |c-elegans_LongRead.fastq.gz
-73952   |73948  |27260  |500    |686    |970    |1283   |983    |1499   |66.15e6 |c-elegans_LongRead_500_1499nt.fastq.gz
+n       |n:1000  |L50    |LG50  |NG50   |min   |N80   |N50   |N20    |E-size  |max    |sum      |name
+---     |---     |---    |---   |---    |---   |---   |---   |---    |---     |---    |---      |---
+190545  |190545  |56956  |3987  |11833  |1500  |4867  |9125  |10509  |8030    |21933  |1.182e9  |data/c-elegans_LongRead.fastq.gz
+73952   |25286   |11380  |25286 |1000   |1000  |1100  |1247  |1397   |1247    |1499   |31.14e6  |data/c-elegans_LongRead_500_1499nt.fastq.gz
