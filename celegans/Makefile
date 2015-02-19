@@ -19,9 +19,6 @@ ref=WBcel235
 # Targets
 
 all: \
-	WBcel235.c-elegans_LongRead_all.sort.bam.bai \
-	k$k-K$K/celegans-unitigs.fa \
-	k$k-K$K/celegans-long-scaffs.fa \
 	assembly-stats.tsv \
 	assembly-stats.html \
 	celegans.quast/transposed_report.tsv \
