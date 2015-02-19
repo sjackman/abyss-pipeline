@@ -45,6 +45,18 @@ $(ref).gtf:
 $(ref).gff:
 	curl ftp://ftp.wormbase.org/pub/wormbase/species/c_elegans/gff/c_elegans.PRJNA13758.WS240.annotations.gff3.gz |gunzip -c >$@
 
+# Download the Moleculo reads shorter than 1500 bp
+data/c-elegans_LongRead_500_1499nt.fastq.gz:
+	curl -o $@ https://api.basespace.illumina.com/v1pre3/files/691535736/content
+
+# Download the Moleculo reads at least 1500 bp
+data/c-elegans_LongRead.fastq.gz:
+	curl -o $@ https://api.basespace.illumina.com/v1pre3/files/691535735/content
+
+# Concatenate the Moleculo data
+data/c-elegans_LongRead_all.fastq.gz: data/c-elegans_LongRead_500_1499nt.fastq.gz data/c-elegans_LongRead.fastq.gz
+	cat $^ >$@
+
 # ERX046316 2.5 kbp mate-pair
 data/ERR068453_%.fastq.bz2:
 	curl -o $@ ftp://ftp.ddbj.nig.ac.jp/ddbj_database/dra/fastq/ERA081/ERA081001/ERX046316/$(@F)
