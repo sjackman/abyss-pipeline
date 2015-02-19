@@ -4,12 +4,14 @@ j=12
 # ABySS parameters
 k=512
 K=96
-l=40
-s=500
-S=500
 e=2
 E=0
 c=1.01
+l=40
+s=500
+n=10
+S=500
+N=100
 
 # Reference genome
 ref=WBcel235
@@ -128,7 +130,7 @@ k$k/%-unitigs.fa:
 	mkdir -p k$k
 	$(shell which time) -p abyss-pe -C k$k \
 		name=celegans \
-		k=$k e=$e E=$E c=$c l=$l s=$s S=$S j=$j v=-v \
+		k=$k e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
 		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
 		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz' \
 		unitigs
@@ -137,7 +139,7 @@ k$k/%-unitigs.fa:
 k$k/%-long-scaffs.fa: k$k/%-unitigs.fa
 	$(shell which time) -p abyss-pe -C k$k \
 		name=celegans \
-		k=$k e=$e E=$E c=$c l=$l s=$s S=$S j=$j v=-v \
+		k=$k e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
 		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
 		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz'
 
@@ -148,7 +150,7 @@ k$k-K$K/%-unitigs.fa:
 	mkdir -p k$k-K$K
 	$(shell which time) -p abyss-pe -C k$k-K$K \
 		name=celegans \
-		k=$k K=$K e=$e E=$E c=$c l=$l s=$s S=$S j=$j v=-v \
+		k=$k K=$K e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
 		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
 		long=moleculo moleculo='../data/c-elegans_LongRead.fastq.gz' \
 		unitigs
@@ -157,7 +159,7 @@ k$k-K$K/%-unitigs.fa:
 k$k-K$K/%-long-scaffs.fa: k$k-K$K/%-unitigs.fa
 	$(shell which time) -p abyss-pe -C k$k-K$K \
 		name=celegans \
-		k=$k K=$K e=$e E=$E c=$c l=$l s=$s S=$S j=$j v=-v \
+		k=$k K=$K e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
 		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
 		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz'
 
@@ -171,7 +173,7 @@ k$k-K$K-scaff/celegans-unitigs.fa: k$k-K$K/celegans-unitigs.fa
 k$k-K$K-scaff/%-long-scaff.fa: k$k-K$K-scaff/%-unitigs.fa
 	$(shell which time) -p abyss-pe -C $(@D) \
 		name=celegans \
-		k=$k K=$K e=$e E=$E c=$c l=$l s=$s S=$S j=$j v=-v \
+		k=$k K=$K e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
 		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
 		mp='ERX046316 DRX007634' \
 		ERX046316='../data/ERR068453_1.fastq.bz2 ../data/ERR068453_2.fastq.bz2' \
