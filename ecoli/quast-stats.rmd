@@ -1,0 +1,42 @@
+Experimental ABySS assembly pipeline
+================================================================================
+
+```{r load-libraries, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(tidyr)
+```
+
+```{r read-data}
+data.orig <- read.delim("ecoli.quast/transposed_report.tsv", as.is = TRUE)
+```
+
+```{r tidy-data}
+data <- data.orig %>%
+	separate(Assembly, c("Directory", "Stage"), " ", extra = "drop") %>%
+	mutate(Directory = factor(Directory),
+		Stage = factor(Stage, unique(Stage))) %>%
+	rename(Misassemblies = X..misassemblies)
+```
+
+```{r plot-NA50}
+ggplot(data = data) +
+	aes(x = Stage, y = NA50, color = Directory, group = Directory) +
+	geom_point() +
+	geom_line() +
+	ylim(0, 200000)
+```
+
+```{r plot-NA50-vs-misassemblies}
+ggplot(data = data) +
+	aes(x = Misassemblies, y = NA50,
+		color = Directory, group = Directory, shape = Stage) +
+	geom_point() +
+	geom_line() +
+	ylim(0, 200000)
+```
+
+```{r tabulate-data}
+kable(data)
+```
