@@ -229,7 +229,6 @@ assembly-stats.tsv: \
 		k512/celegans-unitigs.fa \
 		k512-K96/celegans-unitigs.fa \
 		k512-K96-scaff/celegans-unitigs.fa \
-		sga-m500/sga-contigs.fa \
 		kraghavan-k64/celegans-contigs.fa \
 		kraghavan-k64/celegans-scaffolds.fa \
 		k512-K96-scaff/celegans-scaffolds.fa \
@@ -240,7 +239,6 @@ assembly-stats.tsv: \
 
 # Analayze the assemblies using QUAST
 %.quast/transposed_report.tsv: \
-		sga-m500/sga-contigs.fa \
 		kraghavan-k64/celegans-scaffolds.fa \
 		k512/celegans-long-scaffs.fa \
 		k512-K96/celegans-long-scaffs.fa \
