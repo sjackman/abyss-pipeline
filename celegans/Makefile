@@ -60,7 +60,7 @@ data/DRR008445_%.fastq.bz2:
 	bwa index $<
 
 # Align reads to the reference using BWA MEM
-$(ref).%.sam: %.sam $(ref).fa.bwt
+$(ref).%.sam: data/%.fastq.gz $(ref).fa.bwt
 	bwa mem -t$j $(ref).fa $< >$@
 
 # Sort a SAM file and create a BAM file
