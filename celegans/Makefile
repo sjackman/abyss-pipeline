@@ -178,8 +178,20 @@ k$k-K$K-scaff/celegans-unitigs.fa: k$k-K$K/celegans-unitigs.fa
 	ln -sf ../$(<D)/{celegans-1.fa,celegans-1.dot,celegans-1.path,celegans-2.fa,celegans-2.dot1,celegans-2.dot,celegans-2.path,celegans-3.fa,celegans-3.dot} $(@D)/
 	ln -sf celegans-3.fa $(@D)/celegans-unitigs.fa
 
-# Scaffold with mate-pair and Moleculo data
-k$k-K$K-scaff/%-long-scaff.fa: k$k-K$K-scaff/%-unitigs.fa
+# Scaffold with mate-pair data
+k$k-K$K-scaff/%-scaffolds.fa: k$k-K$K-scaff/%-unitigs.fa
+	$(shell which time) -p abyss-pe -C $(@D) \
+		name=celegans \
+		k=$k K=$K e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
+		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
+		mp='ERX046316 DRX007634' \
+		ERX046316='../data/ERR068453_1.fastq.bz2 ../data/ERR068453_2.fastq.bz2' \
+		DRX007634='../data/DRR008445_1.fastq.bz2 ../data/DRR008445_2.fastq.bz2' \
+		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz' \
+		scaffolds
+
+# Scaffold with Moleculo data
+k$k-K$K-scaff/%-long-scaffs.fa: k$k-K$K-scaff/%-scaffolds.fa
 	$(shell which time) -p abyss-pe -C $(@D) \
 		name=celegans \
 		k=$k K=$K e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
