@@ -152,7 +152,7 @@ k$k-K$K/%-unitigs.fa:
 		long=moleculo moleculo='../data/c-elegans_LongRead.fastq.gz' \
 		unitigs
 
-# Assemble scaffolds
+# Scaffold with Moleculo data
 k$k-K$K/%-long-scaffs.fa: k$k-K$K/%-unitigs.fa
 	$(shell which time) -p abyss-pe -C k$k-K$K \
 		name=celegans \
@@ -160,66 +160,22 @@ k$k-K$K/%-long-scaffs.fa: k$k-K$K/%-unitigs.fa
 		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
 		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz'
 
-# Estimate distances
-k$k-K$K/moleculo-3.dist: k$k-K$K/celegans-unitigs.fa
-	$(shell which time) -p abyss-pe -C k$k-K$K \
-		name=celegans \
-		k=$k K=$K l=$l s=$s v=-v \
-		se='../celegans_merged.fastq ../celegans_reads_1.fastq ../celegans_reads_2.fastq' \
-		long='moleculo' \
-		moleculo='../celegans_1.fq.gz ../celegans_2.fq.gz' \
-		pe-sam moleculo-3.dist
+# Create symlinks for the unitigs
+k$k-K$K-scaff/celegans-unitigs.fa: k$k-K$K/celegans-unitigs.fa
+	mkdir -p $(@D)
+	ln -sf ../$(<D)/{celegans-1.fa,celegans-1.dot,celegans-1.path,celegans-2.fa,celegans-2.dot1,celegans-2.dot,celegans-2.path,celegans-3.fa,celegans-3.dot} $(@D)/
+	ln -sf celegans-3.fa $(@D)/celegans-unitigs.fa
 
-# Assemble contigs
-k$k-K$K/celegans-contigs.fa: k$k-K$K/moleculo-3.dist
-	$(shell which time) -p abyss-pe -C k$k-K$K \
+# Scaffold with mate-pair and Moleculo data
+k$k-K$K-scaff/%-long-scaff.fa: k$k-K$K-scaff/%-unitigs.fa
+	$(shell which time) -p abyss-pe -C $(@D) \
 		name=celegans \
-		k=$k K=$K l=$l s=$s v=-v \
-		se='../celegans_merged.fastq ../celegans_reads_1.fastq ../celegans_reads_2.fastq' \
-		long='moleculo' \
-		moleculo='../celegans_1.fq.gz ../celegans_2.fq.gz' \
-		contigs
-
-# Assemble scaffolds
-k$k-K$K/celegans-scaffolds.fa: k$k-K$K/celegans-contigs.fa
-	$(shell which time) -p abyss-pe -C k$k-K$K \
-		name=celegans \
-		k=$k K=$K l=$l s=$s v=-v \
-		se='../celegans_merged.fastq ../celegans_reads_1.fastq ../celegans_reads_2.fastq' \
-		long='moleculo' \
-		moleculo='../celegans_1.fq.gz ../celegans_2.fq.gz' \
-		scaffolds scaftigs stats
-
-# Estimate distances between contigs
-k$k-K$K-scaff/celegans-4.dot: k$k-K$K/celegans-unitigs.fa
-	mkdir -p k$k-K$K-scaff
-	ln -sf ../k$k-K$K/celegans-3.fa ../k$k-K$K/celegans-3.dot k$k-K$K-scaff/
-	ln -sf celegans-3.fa k$k-K$K-scaff/celegans-unitigs.fa
-	$(shell which time) -p abyss-pe -C k$k-K$K-scaff \
-		name=celegans \
-		k=$k K=$K l=$l s=$s v=-v \
-		OVERLAP_OPTIONS=--no-scaffold \
-		se='../celegans_merged.fastq ../celegans_reads_1.fastq ../celegans_reads_2.fastq' \
-		long='moleculo' \
-		moleculo='../celegans_1.fq.gz ../celegans_2.fq.gz' \
-		-o celegans-1.fa -o celegans-1.dot -o celegans-1.path -o celegans-2.dot1 -o celegans-2.dot -o celegans-3.fa -o celegans-3.dot \
-		pe-sam celegans-4.dot
-
-# Scaffold without first contigging
-k$k-K$K-scaff/celegans-scaffolds.fa: k$k-K$K-scaff/celegans-4.dot
-	ln -sf celegans-3.fa k$k-K$K-scaff/celegans-6.fa
-	ln -sf celegans-6.fa k$k-K$K-scaff/celegans-contigs.fa
-	ln -sf celegans-4.dot k$k-K$K-scaff/celegans-6.dot
-	abyss-todot -e k$k-K$K-scaff/celegans-3.fa k$k-K$K-scaff/moleculo-3.dist >k$k-K$K-scaff/moleculo-3.dist.dot
-	ln -sf moleculo-3.dist.dot k$k-K$K-scaff/moleculo-8.dist.dot
-	$(shell which time) -p abyss-pe -C k$k-K$K-scaff \
-		name=celegans \
-		k=$k K=$K l=$l s=$s v=-v \
-		se='../celegans_merged.fastq ../celegans_reads_1.fastq ../celegans_reads_2.fastq' \
-		long='moleculo' \
-		moleculo='../celegans_1.fq.gz ../celegans_2.fq.gz' \
-		-o celegans-6.fa -o celegans-6.dot -o moleculo-8.dist.dot \
-		scaffolds scaftigs
+		k=$k K=$K e=$e E=$E c=$c l=$l s=$s S=$S j=$j v=-v \
+		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
+		mp='ERX046316 DRX007634' \
+		ERX046316='../data/ERR068453_1.fastq.bz2 ../data/ERR068453_2.fastq.bz2' \
+		DRX007634='../data/DRR008445_1.fastq.bz2 ../data/DRR008445_2.fastq.bz2' \
+		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz'
 
 # Construct a Bloom filter
 celegans.k%.bloom: celegans_merged.fastq celegans_reads_1.fastq celegans_reads_2.fastq
@@ -271,11 +227,14 @@ assembly-stats.tsv: \
 		kraghavan-k64/celegans-unitigs.fa \
 		k512/celegans-unitigs.fa \
 		k512-K96/celegans-unitigs.fa \
+		k512-K96-scaff/celegans-unitigs.fa \
 		sga-m500/sga-contigs.fa \
 		kraghavan-k64/celegans-contigs.fa \
 		kraghavan-k64/celegans-scaffolds.fa \
+		k512-K96-scaff/celegans-scaffolds.fa \
 		k512/celegans-long-scaffs.fa \
-		k512-K96/celegans-long-scaffs.fa
+		k512-K96/celegans-long-scaffs.fa \
+		k512-K96-scaff/celegans-long-scaffs.fa
 	abyss-fac -e100286401 -s1000 $^ >$@
 
 # Analayze the assemblies using QUAST
