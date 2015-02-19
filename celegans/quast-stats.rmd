@@ -1,0 +1,44 @@
+---
+title: Experimental ABySS assembly pipeline of C. elegans
+author: Shaun Jackman
+---
+
+```{r load-libraries, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(tidyr)
+```
+
+```{r read-data}
+data.orig <- read.delim("celegans.quast/transposed_report.tsv", as.is = TRUE)
+```
+
+```{r tidy-data}
+data <- data.orig %>%
+	separate(Assembly, c("Directory", "Stage"), " ", extra = "drop") %>%
+	mutate(Directory = factor(Directory),
+		Stage = factor(is.na(Stage), c("FALSE", "TRUE"), c("Scaftigs", "Scaffolds"))) %>%
+	rename(Misassemblies = X..misassemblies)
+```
+
+```{r plot-NGA50}
+ggplot(data = data) +
+	aes(x = Stage, y = NGA50, color = Directory, group = Directory) +
+	geom_point() +
+	geom_line() +
+	ylim(0, NA)
+```
+
+```{r plot-NGA50-vs-misassemblies}
+ggplot(data = data) +
+	aes(x = Misassemblies, y = NGA50,
+		color = Directory, group = Directory, shape = Stage) +
+	geom_point() +
+	geom_line() +
+	ylim(0, NA)
+```
+
+```{r tabulate-data}
+kable(data)
+```

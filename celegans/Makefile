@@ -22,7 +22,8 @@ all: \
 	k$k-K$K/celegans-long-scaffs.fa \
 	assembly-stats.tsv \
 	assembly-stats.html \
-	celegans.quast/report.tsv
+	celegans.quast/transposed_report.tsv \
+	quast-stats.html
 
 .PHONY: all clean
 .DELETE_ON_ERROR:
@@ -238,11 +239,12 @@ assembly-stats.tsv: \
 	abyss-fac -e100286401 -s1000 $^ >$@
 
 # Analayze the assemblies using QUAST
-%.quast/report.tsv: \
+%.quast/transposed_report.tsv: \
 		sga-m500/sga-contigs.fa \
 		kraghavan-k64/celegans-scaffolds.fa \
 		k512/celegans-long-scaffs.fa \
-		k512-K96/celegans-long-scaffs.fa
+		k512-K96/celegans-long-scaffs.fa \
+		k512-K96-scaff/celegans-long-scaffs.fa
 	quast.py -T$j -esL -o $*.quast -R $(ref).fa -G $(ref).gff $^
 
 # Convert TSV to Markdown
@@ -260,3 +262,5 @@ assembly-stats.tsv: \
 # Dependencies
 
 assembly-stats.html: assembly-stats.tsv
+
+quast-stats.html: celegans.quast/transposed_report.tsv
