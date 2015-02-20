@@ -132,13 +132,12 @@ sga-m500/%.asqg.gz: %.fa %.bwt
 
 # Assemble contigs using Celera Assembler
 
-%.fastq: %.fastq.gz
-	gunzip -c $< >$@
-
-celera/%.frg: data/%.fastq
+# Create a FRG file from a FASTQ file
+celera/%.frg: data/%.fastq.gz
 	mkdir -p $(@D)
 	fastqToCA -libraryname moleculo -technology moleculo -reads $< >$@
 
+# Assemble contigs using Celera Assembler
 celera/celegans.scf.fasta: celera/c-elegans_LongRead_500_1499nt.frg celera/c-elegans_LongRead.frg
 	runCA -d $(@D) -p celegans $^
 
