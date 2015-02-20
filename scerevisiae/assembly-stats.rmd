@@ -1,0 +1,36 @@
+---
+title: Assembly of S. cerevisiae using an experimental ABySS pipeline
+author: Shaun Jackman
+---
+
+```{r load-libraries, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(tidyr)
+```
+
+```{r read-data}
+data.orig <- read.delim("assembly-stats.tsv", as.is = TRUE)
+```
+
+```{r tidy-data}
+data <- data.orig %>%
+	separate(name, c("Directory", "File"), "/") %>%
+	separate(File, c("Species", "Stage", "Ext"), extra = "drop") %>%
+	select(-Ext) %>%
+	mutate(Directory = factor(Directory, unique(Directory)),
+		Stage = factor(Stage, unique(Stage)))
+```
+
+```{r plot-data}
+ggplot(data = data) +
+	aes(x = Stage, y = NG50, color = Directory, group = Directory) +
+	geom_point() +
+	geom_line() +
+	ylim(0, NA)
+```
+
+```{r tabulate-data}
+kable(data)
+```
