@@ -273,9 +273,11 @@ assembly-stats.tsv: \
 		kraghavan-k64/celegans-contigs.fa \
 		kraghavan-k64/celegans-scaffolds.fa \
 		k512-K96-scaff/celegans-scaffolds.fa \
+		k512-K96-sealer/celegans-scaffolds.fa \
 		k512/celegans-long-scaffs.fa \
 		k512-K96/celegans-long-scaffs.fa \
-		k512-K96-scaff/celegans-long-scaffs.fa
+		k512-K96-scaff/celegans-long-scaffs.fa \
+		k512-K96-sealer/celegans-scaftigs.fa
 	abyss-fac -e100286401 -s1000 $^ >$@
 
 # Analayze the assemblies using QUAST
@@ -283,7 +285,8 @@ assembly-stats.tsv: \
 		kraghavan-k64/celegans-scaffolds.fa \
 		k512/celegans-long-scaffs.fa \
 		k512-K96/celegans-long-scaffs.fa \
-		k512-K96-scaff/celegans-long-scaffs.fa
+		k512-K96-scaff/celegans-long-scaffs.fa \
+		k512-K96-sealer/celegans-scaffolds.fa
 	quast.py -T$j -esL -o $*.quast -R $(ref).fa -G $(ref).gff $^
 
 # Convert TSV to Markdown
