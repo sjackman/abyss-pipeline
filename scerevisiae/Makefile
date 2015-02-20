@@ -276,6 +276,7 @@ assembly-stats.tsv: \
 
 # Analayze the assemblies using QUAST
 %.quast/transposed_report.tsv: \
+		nanocorr/scerevisiae-polished.fa.gz \
 		k512/scerevisiae-long-scaffs.fa \
 		k512-K96/scerevisiae-long-scaffs.fa \
 		k512-K96-scaff/scerevisiae-long-scaffs.fa
