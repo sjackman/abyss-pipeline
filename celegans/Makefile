@@ -216,24 +216,29 @@ k$k-K$K-scaff/%-long-scaffs.fa: k$k-K$K-scaff/%-scaffolds.fa
 		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz'
 
 # Construct a Bloom filter
-celegans.k%.bloom: celegans_merged.fastq celegans_reads_1.fastq celegans_reads_2.fastq
+celegans.k%.bloom: data/c-elegans_LongRead_500_1499nt.fastq.gz data/c-elegans_LongRead.fastq.gz
 	abyss-bloom build -v -k$* -j$j -b500M -l2 $@ $^
 
 # Fill in gaps using ABySS-sealer
 k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K-scaff/%-scaffolds.fa \
+		%.k25.bloom \
 		%.k50.bloom \
 		%.k75.bloom \
 		%.k100.bloom \
 		%.k150.bloom \
-		%.k250.bloom
+		%.k200.bloom \
+		%.k250.bloom \
+		%.k300.bloom \
+		%.k400.bloom \
+		%.k500.bloom
 	mkdir -p k$k-K$K-sealer
 	ln -sf ../k$k-K$K-scaff/$*-unitigs.fa k$k-K$K-sealer/
 	abyss-sealer -v -j$j \
 		--print-flanks \
-		--max-frag=2000 -L512 -k50 -k75 -k100 -k150 -k250 \
+		--max-frag=2000 -L512 -k25 -k50 -k75 -k100 -k150 -k200 -k250 -k300 -k400 -k500 \
 		-o k$k-K$K-sealer/$* -t k$k-K$K-sealer/$*_trace.tsv -S $< \
 		$(addprefix -i , $(wordlist 2, 99, $^)) \
-		$*_merged.fastq $*_reads_1.fastq $*_reads_2.fastq
+		/dev/null
 	ln -sf $*_scaffold.fa k$k-K$K-sealer/$*-scaffolds.fa
 
 # Convert scaffolds to scaftigs
