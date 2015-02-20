@@ -130,6 +130,20 @@ sga-m500/%.asqg.gz: %.fa %.bwt
 %.sga-contigs.fa: %.asqg.gz
 	sga assemble -v -m500 -o $*.sga $<
 
+# Assemble contigs using Celera Assembler
+
+%.fastq: %.fastq.gz
+	gunzip -c $< >$@
+
+celera/%.frg: data/%.fastq
+	mkdir -p $(@D)
+	fastqToCA -libraryname moleculo -technology moleculo -reads $< >$@
+
+celera/celegans.scf.fasta: celera/c-elegans_LongRead_500_1499nt.frg celera/c-elegans_LongRead.frg
+	runCA -d $(@D) -p celegans $^
+
+# ABySS
+
 # Merge overlapping reads using abyss-mergepairs
 %_merged.fastq: %_1.fq.gz %_2.fq.gz
 	abyss-mergepairs -q 15 -v -o $* $^ >$*_merged.tsv
