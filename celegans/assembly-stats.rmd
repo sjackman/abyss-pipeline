@@ -31,6 +31,26 @@ ggplot(data = data) +
 	ylim(0, NA)
 ```
 
+```{r plot-NG50}
+data.name <- data %>%
+	mutate(Name = factor(Directory,
+		levels = c("k192", "k512", "k512-K96-sealer",
+			"WBcel235-k192", "WBcel235-k512"),
+		labels = c("ABySS 1.5.2 k=192", "ABySS 1.5.2 k=512", "ABySS 1.6.0 k=512 K=96",
+			"Reference k=192", "Reference k=512")))
+
+ggplot(data = data.name %>%
+		filter(Directory %in% c("k192", "k512", "k512-K96-sealer"))) +
+	aes(x = Stage, y = NG50, color = Name, group = Name) +
+	geom_point() +
+	geom_line() +
+	geom_hline(aes(yintercept = NG50, color = Name),
+		data = data.name %>% filter(Stage == "1" & !is.na(Name)),
+		linetype = "dashed") +
+	xlim("unitigs", "contigs", "scaffolds", "scaftigs") +
+	ylim(0, NA)
+```
+
 ```{r tabulate-data}
 kable(data)
 ```
