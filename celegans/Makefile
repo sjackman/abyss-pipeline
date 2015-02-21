@@ -154,15 +154,37 @@ k$k/%-unitigs.fa:
 		name=celegans \
 		k=$k e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
 		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
+		pe='DRX007634' DRX007634='../data/DRR008445_1.fastq.bz2 ../data/DRR008445_2.fastq.bz2' \
 		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz' \
 		unitigs
 
-# Assemble scaffolds using a standard de Bruijn Graph
-k$k/%-long-scaffs.fa: k$k/%-unitigs.fa
+# Assemble contigs using a standard de Bruijn Graph
+k$k/%-contigs.fa: k$k/%-unitigs.fa
 	$(shell which time) -p abyss-pe -C k$k \
 		name=celegans \
 		k=$k e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
 		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
+		pe='DRX007634' DRX007634='../data/DRR008445_1.fastq.bz2 ../data/DRR008445_2.fastq.bz2' \
+		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz' \
+		contigs
+
+# Assemble scaffolds using a standard de Bruijn Graph
+k$k/%-scaffolds.fa: k$k/%-contigs.fa
+	$(shell which time) -p abyss-pe -C k$k \
+		name=celegans \
+		k=$k e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
+		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
+		pe='DRX007634' DRX007634='../data/DRR008445_1.fastq.bz2 ../data/DRR008445_2.fastq.bz2' \
+		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz' \
+		scaffolds
+
+# Assemble scaffolds using a standard de Bruijn Graph
+k$k/%-long-scaffs.fa: k$k/%-scaffolds.fa
+	$(shell which time) -p abyss-pe -C k$k \
+		name=celegans \
+		k=$k e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
+		se='../data/c-elegans_LongRead_500_1499nt.fastq.gz ../data/c-elegans_LongRead.fastq.gz' \
+		pe='DRX007634' DRX007634='../data/DRR008445_1.fastq.bz2 ../data/DRR008445_2.fastq.bz2' \
 		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz'
 
 # Assemble using a paired dBG
