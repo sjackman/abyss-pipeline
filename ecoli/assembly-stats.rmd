@@ -1,5 +1,8 @@
-Experimental ABySS assembly pipeline
-================================================================================
+---
+title: Assembly of E. coli using an experimental ABySS pipeline
+author: Shaun Jackman
+---
+
 
 ```{r load-libraries, message=FALSE}
 library(dplyr)
@@ -23,9 +26,21 @@ data <- data.orig %>%
 
 ```{r plot-data}
 ggplot(data = data) +
-	aes(x = Stage, y = N50, color = Directory, group = Directory) +
+	aes(x = Stage, y = NG50, color = Directory, group = Directory) +
 	geom_point() +
 	geom_line() +
+	ylim(0, 200000)
+```
+
+```{r plot-NG50}
+ggplot(data = data %>%
+		filter(Directory %in% c("k64", "k364", "k364-K32-sealer"))) +
+	aes(x = Stage, y = NG50, color = Directory, group = Directory) +
+	geom_point() +
+	geom_line() +
+	geom_hline(aes(yintercept = NG50, color = Directory),
+		data = data %>% filter(Stage == "1"),
+		linetype = "dashed") +
 	ylim(0, 200000)
 ```
 
