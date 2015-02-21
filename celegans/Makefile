@@ -280,21 +280,27 @@ sga-m500/sga-contigs.fa: sga-m500/c-elegans_LongRead_all.bfc.preprocess.rmdup.sg
 assembly-stats.tsv: \
 		WBcel235-k64/celegans-1.fa \
 		WBcel235-k128/celegans-1.fa \
+		WBcel235-k192/celegans-1.fa \
 		WBcel235-k256/celegans-1.fa \
 		WBcel235-k512/celegans-1.fa \
 		bwa-depth1+/WBcel235.bwa.fa \
 		bwa-depth2+/WBcel235.bwa.fa \
 		kraghavan-k64/celegans-unitigs.fa \
-		k512/celegans-unitigs.fa \
-		k512-K96/celegans-unitigs.fa \
-		k512-K96-scaff/celegans-unitigs.fa \
 		kraghavan-k64/celegans-contigs.fa \
 		kraghavan-k64/celegans-scaffolds.fa \
-		k512-K96-scaff/celegans-scaffolds.fa \
-		k512-K96-sealer/celegans-scaffolds.fa \
+		k512/celegans-unitigs.fa \
+		k512/celegans-contigs.fa \
+		k512/celegans-scaffolds.fa \
 		k512/celegans-long-scaffs.fa \
+		k512-K96/celegans-unitigs.fa \
+		k512-K96/celegans-contigs.fa \
+		k512-K96/celegans-scaffolds.fa \
 		k512-K96/celegans-long-scaffs.fa \
+		k512-K96-scaff/celegans-unitigs.fa \
+		k512-K96-scaff/celegans-scaffolds.fa \
 		k512-K96-scaff/celegans-long-scaffs.fa \
+		k512-K96-sealer/celegans-unitigs.fa \
+		k512-K96-sealer/celegans-scaffolds.fa \
 		k512-K96-sealer/celegans-scaftigs.fa
 	abyss-fac -e100286401 -s1000 $^ >$@
 
