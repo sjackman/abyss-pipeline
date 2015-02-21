@@ -48,6 +48,7 @@ ggplot(data = data.name %>%
 	geom_hline(aes(yintercept = NG50, color = Name),
 		data = data.name %>% filter(Stage == "1"),
 		linetype = "dashed") +
+	scale_colour_brewer(palette = 'Set1') +
 	ylim(0, 200000)
 ```
 
