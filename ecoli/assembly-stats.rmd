@@ -9,7 +9,7 @@ library(tidyr)
 ```
 
 ```{r read-data}
-data.orig <- read.delim("ecoli-assembly-stats.tsv", as.is = TRUE)
+data.orig <- read.delim("assembly-stats.tsv", as.is = TRUE)
 ```
 
 ```{r tidy-data}

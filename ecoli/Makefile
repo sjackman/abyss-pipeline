@@ -11,8 +11,8 @@ ref=NC_000913
 # Targets
 
 all: \
-	ecoli-assembly-stats.tsv \
-	ecoli-assembly-stats.html \
+	assembly-stats.tsv \
+	assembly-stats.html \
 	ecoli.quast/transposed_report.tsv \
 	quast-stats.html \
 	library-stats.html
@@ -152,7 +152,7 @@ $(ref)-k%/ecoli-1.fa: $(ref).fa
 	ABYSS -v -k$* -e0 -t0 -c0 $< -o $@ -s $(ref)-k$*/ecoli-bubbles.fa 2>&1 |tee $@.log
 
 # Calculate assembly statistics
-%-assembly-stats.tsv: k$k-K$K-sealer/%-scaffolds.fa k$k-K$K-sealer/%-scaftigs.fa
+assembly-stats.tsv: k$k-K$K-sealer/ecoli-scaffolds.fa k$k-K$K-sealer/ecoli-scaftigs.fa
 	abyss-fac \
 		$(ref)-k64/ecoli-1.fa \
 		$(ref)-k364/ecoli-1.fa \
@@ -202,6 +202,6 @@ $(ref)-k%/ecoli-1.fa: $(ref).fa
 
 # Dependencies
 
-ecoli-assembly-stats.html: ecoli-assembly-stats.tsv
+assembly-stats.html: assembly-stats.tsv
 
 quast-stats.html: ecoli.quast/transposed_report.tsv
