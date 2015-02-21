@@ -262,6 +262,7 @@ assembly-stats.tsv: \
 		$(ref)-k128/scerevisiae-1.fa \
 		$(ref)-k256/scerevisiae-1.fa \
 		$(ref)-k512/scerevisiae-1.fa \
+		$(ref)-k1024/scerevisiae-1.fa \
 		$(ref)-depth1+/scerevisiae.bwa.fa \
 		$(ref)-depth2+/scerevisiae.bwa.fa \
 		nanocorr/scerevisiae-polished.fa.gz \
