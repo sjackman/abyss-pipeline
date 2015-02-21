@@ -288,6 +288,11 @@ assembly-stats.tsv: \
 		kraghavan-k64/celegans-unitigs.fa \
 		kraghavan-k64/celegans-contigs.fa \
 		kraghavan-k64/celegans-scaffolds.fa \
+		k192/celegans-unitigs.fa \
+		k192/celegans-contigs.fa \
+		k192/celegans-scaffolds.fa \
+		k192/celegans-long-scaffs.fa \
+		k192/celegans-scaftigs.fa \
 		k512/celegans-unitigs.fa \
 		k512/celegans-contigs.fa \
 		k512/celegans-scaffolds.fa \
@@ -308,6 +313,7 @@ assembly-stats.tsv: \
 # Analayze the assemblies using QUAST
 %.quast/transposed_report.tsv: \
 		kraghavan-k64/celegans-scaffolds.fa \
+		k192/celegans-long-scaffs.fa \
 		k512/celegans-long-scaffs.fa \
 		k512-K96/celegans-long-scaffs.fa \
 		k512-K96-scaff/celegans-long-scaffs.fa \
