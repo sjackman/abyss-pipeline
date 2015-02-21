@@ -163,6 +163,10 @@ $(ref)-k%/ecoli-1.fa: $(ref).fa
 	abyss-fac \
 		$(ref)-k64/ecoli-1.fa \
 		$(ref)-k364/ecoli-1.fa \
+		k64/ecoli-unitigs.fa \
+		k64/ecoli-contigs.fa \
+		k64/ecoli-scaffolds.fa \
+		k64/ecoli-scaftigs.fa \
 		k$k/ecoli-unitigs.fa \
 		k$k/ecoli-contigs.fa \
 		k$k/ecoli-scaffolds.fa \
@@ -183,6 +187,7 @@ $(ref)-k%/ecoli-1.fa: $(ref).fa
 %.quast/report.tsv: \
 		$(ref)-k64/%-1.fa \
 		$(ref)-k364/%-1.fa \
+		k64/ecoli-scaffolds.fa \
 		k$k/%-scaffolds.fa \
 		k416/%-scaffolds.fa \
 		k$k-K$K/%-scaffolds.fa \
