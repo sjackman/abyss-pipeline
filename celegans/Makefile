@@ -292,6 +292,7 @@ assembly-stats.tsv: \
 		k512/celegans-contigs.fa \
 		k512/celegans-scaffolds.fa \
 		k512/celegans-long-scaffs.fa \
+		k512/celegans-scaftigs.fa \
 		k512-K96/celegans-unitigs.fa \
 		k512-K96/celegans-contigs.fa \
 		k512-K96/celegans-scaffolds.fa \
