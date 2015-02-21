@@ -11,17 +11,10 @@ ref=NC_000913
 # Targets
 
 all: \
-	ecoli_merged.fastq \
-	k$k/ecoli-scaffolds.fa \
-	k$k/ecoli-scaftigs.fa \
-	k$k-K$K/ecoli-unitigs.fa \
-	k$k-K$K/pe600-3.dist \
-	k$k-K$K-scaff/ecoli-scaffolds.fa \
-	k$k-K$K-sealer/ecoli-scaffolds.fa \
-	k$k-K$K-sealer/ecoli-scaftigs.fa \
 	ecoli-assembly-stats.tsv \
 	ecoli-assembly-stats.html \
-	ecoli.quast/report.tsv \
+	ecoli.quast/transposed_report.tsv \
+	quast-stats.html \
 	library-stats.html
 
 other: \
@@ -184,7 +177,7 @@ $(ref)-k%/ecoli-1.fa: $(ref).fa
 		>$@
 
 # Analayze the assemblies using QUAST
-%.quast/report.tsv: \
+%.quast/transposed_report.tsv: \
 		$(ref)-k64/%-1.fa \
 		$(ref)-k364/%-1.fa \
 		k64/ecoli-scaffolds.fa \
@@ -210,3 +203,5 @@ $(ref)-k%/ecoli-1.fa: $(ref).fa
 # Dependencies
 
 ecoli-assembly-stats.html: ecoli-assembly-stats.tsv
+
+quast-stats.html: ecoli.quast/transposed_report.tsv
