@@ -267,19 +267,15 @@ assembly-stats.tsv: \
 		nanocorr/scerevisiae-polished.fa.gz \
 		k512/scerevisiae-unitigs.fa \
 		k512-K96/scerevisiae-unitigs.fa \
-		k512-K96-scaff/scerevisiae-unitigs.fa \
-		k512-K96-scaff/scerevisiae-scaffolds.fa \
 		k512/scerevisiae-long-scaffs.fa \
-		k512-K96/scerevisiae-long-scaffs.fa \
-		k512-K96-scaff/scerevisiae-long-scaffs.fa
+		k512-K96/scerevisiae-long-scaffs.fa
 	abyss-fac -e12157105 -s1000 $^ >$@
 
 # Analayze the assemblies using QUAST
 %.quast/transposed_report.tsv: \
 		nanocorr/scerevisiae-polished.fa.gz \
 		k512/scerevisiae-long-scaffs.fa \
-		k512-K96/scerevisiae-long-scaffs.fa \
-		k512-K96-scaff/scerevisiae-long-scaffs.fa
+		k512-K96/scerevisiae-long-scaffs.fa
 	quast.py -T$j -esL -o $*.quast -R $(ref).fa -G $(ref).gff $^
 
 # Convert TSV to Markdown
