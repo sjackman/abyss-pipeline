@@ -155,6 +155,7 @@ k$k/%-unitigs.fa:
 		k=$k e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
 		se='../data/W303_ONT_Nanocorr_Corrected_reads.fa.gz' \
 		long=nanopore nanopore='../data/W303_ONT_Nanocorr_Corrected_reads.fa.gz' \
+		FILTERGRAPH_OPTIONS=-c5 \
 		unitigs
 
 # Assemble scaffolds using a standard de Bruijn Graph
@@ -175,6 +176,7 @@ k$k-K$K/%-unitigs.fa:
 		k=$k K=$K e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
 		se='../data/W303_ONT_Nanocorr_Corrected_reads.fa.gz' \
 		long=nanopore nanopore='../data/W303_ONT_Nanocorr_Corrected_reads.fa.gz' \
+		FILTERGRAPH_OPTIONS=-c5 \
 		unitigs
 
 # Scaffold with Nanopore data
