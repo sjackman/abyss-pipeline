@@ -16,6 +16,11 @@ Oxford Nanopore
 + Nanocorr corrected reads: [W303_ONT_Nanocorr_Corrected_reads.fa.gz](http://labshare.cshl.edu/shares/schatzlab/www-data/nanocorr/W303_ONT_Nanocorr_Corrected_reads.fa.gz)
 + Nanocorr polished assembly: [W303_ONT_Assembly_CA_polished.fa.gz](http://labshare.cshl.edu/shares/schatzlab/www-data/nanocorr/W303_ONT_Assembly_CA_polished.fa.gz)
 
+n       |n:1000 |L50    |n:NG50 |NG50   |min    |N80    |N50    |N20    |E-size |max    |sum     |name
+------  |------ |------ |------ |------ |------ |------ |------ |------ |------ |------ |------  |------
+105281  |75458  |19157  |158    |32700  |1000   |5342   |8497   |12890  |9727   |72936  |469.7e6 |data/W303_ONT_Nanocorr_Corrected_reads.fa.gz
+
+
 Longest Repeat
 ================================================================================
 
