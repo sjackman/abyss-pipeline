@@ -262,6 +262,7 @@ nanocorr/scerevisiae-polished.fa.gz: data/W303_ONT_Assembly_CA_polished.fa.gz
 assembly-stats.tsv: \
 		$(ref)-k64/scerevisiae-1.fa \
 		$(ref)-k128/scerevisiae-1.fa \
+		$(ref)-k192/scerevisiae-1.fa \
 		$(ref)-k256/scerevisiae-1.fa \
 		$(ref)-k512/scerevisiae-1.fa \
 		$(ref)-k1024/scerevisiae-1.fa \
