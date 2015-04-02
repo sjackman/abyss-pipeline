@@ -1,8 +1,10 @@
 ---
 title: Assembly of E. coli using an experimental ABySS pipeline
 author: Shaun Jackman
+output:
+  html_document:
+    keep_md: true
 ---
-
 
 ```{r load-libraries, message=FALSE}
 library(dplyr)
@@ -32,7 +34,7 @@ ggplot(data = data) +
 	ylim(0, 200000)
 ```
 
-```{r plot-NG50}
+```{r plot-NG50, fig.width=10.5, fig.height=10, dpi=300}
 data.name <- data %>%
 	mutate(Name = factor(Directory,
 		levels = c("k64", "k364", "k364-K32-sealer",
@@ -49,7 +51,9 @@ ggplot(data = data.name %>%
 		data = data.name %>% filter(Stage == "1"),
 		linetype = "dashed") +
 	scale_colour_brewer(palette = 'Set1') +
-	ylim(0, 200000)
+	ylim(0, 200000) +
+	theme_grey(24) +
+	theme(legend.position = c(.2, .9))
 ```
 
 ```{r tabulate-data}
