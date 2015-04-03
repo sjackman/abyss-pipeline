@@ -10,8 +10,8 @@ c=1.01
 l=40
 s=500
 n=10
-S=500
-N=100
+S=2000
+N=10
 
 # S288C reference genome
 ref=R64
@@ -163,6 +163,7 @@ k$k/%-long-scaffs.fa: k$k/%-unitigs.fa
 	$(shell which time) -p abyss-pe -C k$k \
 		name=scerevisiae \
 		k=$k e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
+		SCAFFOLD_OPTIONS=-n$N \
 		se='../data/W303_ONT_Nanocorr_Corrected_reads.fa.gz' \
 		long=nanopore nanopore='../data/W303_ONT_Nanocorr_Corrected_reads.fa.gz'
 
@@ -184,6 +185,7 @@ k$k-K$K/%-long-scaffs.fa: k$k-K$K/%-unitigs.fa
 	$(shell which time) -p abyss-pe -C k$k-K$K \
 		name=scerevisiae \
 		k=$k K=$K e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
+		SCAFFOLD_OPTIONS=-n$N \
 		se='../data/W303_ONT_Nanocorr_Corrected_reads.fa.gz' \
 		long=nanopore nanopore='../data/W303_ONT_Nanocorr_Corrected_reads.fa.gz'
 
@@ -207,6 +209,7 @@ k$k-K$K-scaff/%-long-scaffs.fa: k$k-K$K-scaff/%-scaffolds.fa
 	$(shell which time) -p abyss-pe -C $(@D) \
 		name=scerevisiae \
 		k=$k K=$K e=$e E=$E c=$c l=$l s=$s n=$n S=$S N=$N j=$j v=-v \
+		SCAFFOLD_OPTIONS=-n$N \
 		se='../data/W303_ONT_Nanocorr_Corrected_reads.fa.gz' \
 		long=nanopore nanopore='../data/W303_ONT_Nanocorr_Corrected_reads.fa.gz'
 
