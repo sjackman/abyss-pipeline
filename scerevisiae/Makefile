@@ -214,11 +214,11 @@ k$k-K$K-scaff/%-long-scaffs.fa: k$k-K$K-scaff/%-scaffolds.fa
 		long=nanopore nanopore='../data/W303_ONT_Nanocorr_Corrected_reads.fa.gz'
 
 # Construct a Bloom filter
-scerevisiae.k%.bloom: data/c-elegans_LongRead_500_1499nt.fastq.gz data/c-elegans_LongRead.fastq.gz
+scerevisiae.k%.bloom: data/W303_ONT_Nanocorr_Corrected_reads.fa.gz
 	abyss-bloom build -v -k$* -j$j -b500M -l2 $@ $^
 
 # Fill in gaps using ABySS-sealer
-k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K-scaff/%-scaffolds.fa \
+k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K/%-long-scaffs.fa \
 		%.k25.bloom \
 		%.k50.bloom \
 		%.k75.bloom \
@@ -277,7 +277,8 @@ assembly-stats.tsv: \
 		k512-K96/scerevisiae-unitigs.fa \
 		k192/scerevisiae-long-scaffs.fa \
 		k512/scerevisiae-long-scaffs.fa \
-		k512-K96/scerevisiae-long-scaffs.fa
+		k512-K96/scerevisiae-long-scaffs.fa \
+		k512-K96-sealer/scerevisiae-scaffolds.fa
 	abyss-fac -e12157105 -s1000 $^ >$@
 
 # Analayze the assemblies using QUAST
