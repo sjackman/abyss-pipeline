@@ -291,7 +291,8 @@ assembly-stats.tsv: \
 		nanocorr/scerevisiae-polished.fa.gz \
 		k192/scerevisiae-long-scaffs.fa \
 		k512/scerevisiae-long-scaffs.fa \
-		k512-K96/scerevisiae-long-scaffs.fa
+		k512-K96/scerevisiae-long-scaffs.fa \
+		k512-K96-sealer/scerevisiae-long-scaffs.fa
 	quast.py -T$j -esL -o $*.quast -R $(ref).fa -G $(ref).gff $^
 
 # Convert TSV to Markdown
