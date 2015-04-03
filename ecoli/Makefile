@@ -173,6 +173,8 @@ assembly-stats.tsv: k$k-K$K-sealer/ecoli-scaffolds.fa k$k-K$K-sealer/ecoli-scaft
 		k$k-K$K/ecoli-scaffolds.fa \
 		k$k-K$K/ecoli-scaftigs.fa \
 		k$k-K$K-sealer/ecoli-unitigs.fa \
+		'SPAdes 3.1.1/ecoli-scaffolds.fa' \
+		'SPAdes 3.1.1/ecoli-scaftigs.fa' \
 		$^ \
 		>$@
 
