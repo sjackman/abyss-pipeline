@@ -37,7 +37,7 @@ ggplot(data = data) +
 ```{r plot-NG50, fig.width=10.5, fig.height=10, dpi=300}
 data.name <- data %>%
 	mutate(Name = factor(Directory,
-		levels = c("k192", "k512", "k512-K96",
+		levels = c("k192", "k512", "k512-K96-sealer",
 			"R64-k192", "R64-k512"),
 		labels = c("ABySS 1.5.2 k=192", "ABySS 1.5.2 k=512", "ABySS 1.6.0 k=512 K=96",
 			"Reference k=192", "Reference k=512")))
