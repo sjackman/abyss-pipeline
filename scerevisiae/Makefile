@@ -289,16 +289,16 @@ assembly-stats.tsv: \
 %.tsv.md: %.tsv
 	abyss-tabtomd $< >$@
 
+# Render HTML and Markdown from RMarkdown
+%.html %.md: %.rmd
+	Rscript -e 'rmarkdown::render("$<", "html_document")'
+
 # Render HTML from Markdown
 %.html: %.md
 	pandoc -o $@ $<
 
-# Render HTML from RMarkdown
-%.html: %.rmd
-	Rscript -e 'rmarkdown::render("$<", "html_document")'
-
 # Dependencies
 
-assembly-stats.html: assembly-stats.tsv
+assembly-stats.html assembly-stats.md: assembly-stats.tsv
 
-quast-stats.html: scerevisiae.quast/transposed_report.tsv
+quast-stats.html quast-stats.md: scerevisiae.quast/transposed_report.tsv
