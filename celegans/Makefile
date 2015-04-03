@@ -139,6 +139,7 @@ celera/%.frg: data/%.fastq.gz
 
 # Assemble contigs using Celera Assembler
 celera/celegans.scf.fasta: celera/c-elegans_LongRead_500_1499nt.frg celera/c-elegans_LongRead.frg
+	$(shell which time) -p \
 	runCA -d $(@D) -p celegans $^
 
 # ABySS
