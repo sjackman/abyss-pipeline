@@ -218,7 +218,7 @@ scerevisiae.k%.bloom: data/W303_ONT_Nanocorr_Corrected_reads.fa.gz
 	abyss-bloom build -v -k$* -j$j -b500M -l2 $@ $^
 
 # Fill in gaps using ABySS-sealer
-k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K/%-long-scaffs.fa \
+k$k-K$K-sealer/%-long-scaffs.fa: k$k-K$K/%-long-scaffs.fa \
 		%.k25.bloom \
 		%.k50.bloom \
 		%.k75.bloom \
@@ -237,10 +237,10 @@ k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K/%-long-scaffs.fa \
 		-o k$k-K$K-sealer/$* -t k$k-K$K-sealer/$*_trace.tsv -S $< \
 		$(addprefix -i , $(wordlist 2, 99, $^)) \
 		/dev/null
-	ln -sf $*_scaffold.fa k$k-K$K-sealer/$*-scaffolds.fa
+	ln -sf $*_scaffold.fa k$k-K$K-sealer/$*-long-scaffs.fa
 
 # Convert scaffolds to scaftigs
-%-scaftigs.fa: %-scaffolds.fa
+%-scaftigs.fa: %-long-scaffs.fa
 	abyss-fatoagp -f $@ $< >$@.agp
 
 # Assemble the reference genome
@@ -275,10 +275,15 @@ assembly-stats.tsv: \
 		k192/scerevisiae-unitigs.fa \
 		k512/scerevisiae-unitigs.fa \
 		k512-K96/scerevisiae-unitigs.fa \
+		k512-K96-sealer/scerevisiae-unitigs.fa \
 		k192/scerevisiae-long-scaffs.fa \
 		k512/scerevisiae-long-scaffs.fa \
 		k512-K96/scerevisiae-long-scaffs.fa \
-		k512-K96-sealer/scerevisiae-scaffolds.fa
+		k512-K96-sealer/scerevisiae-long-scaffs.fa \
+		k192/scerevisiae-scaftigs.fa \
+		k512/scerevisiae-scaftigs.fa \
+		k512-K96/scerevisiae-scaftigs.fa \
+		k512-K96-sealer/scerevisiae-scaftigs.fa
 	abyss-fac -e12157105 -s1000 $^ >$@
 
 # Analayze the assemblies using QUAST
