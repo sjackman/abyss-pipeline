@@ -271,7 +271,8 @@ assembly-stats.tsv: \
 		$(ref)-k1024/scerevisiae-1.fa \
 		$(ref)-depth1+/scerevisiae.bwa.fa \
 		$(ref)-depth2+/scerevisiae.bwa.fa \
-		nanocorr/scerevisiae-polished.fa.gz \
+		nanocorr/scerevisiae-long-scaffs.fa \
+		nanocorr/scerevisiae-scaftigs.fa \
 		k192/scerevisiae-unitigs.fa \
 		k512/scerevisiae-unitigs.fa \
 		k512-K96/scerevisiae-unitigs.fa \
