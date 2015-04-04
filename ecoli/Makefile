@@ -194,20 +194,20 @@ assembly-stats.tsv: k$k-K$K-sealer/ecoli-scaffolds.fa k$k-K$K-sealer/ecoli-scaft
 %.tsv.md: %.tsv
 	abyss-tabtomd $< >$@
 
+# Render HTML and Markdown from RMarkdown
+%.html %.md: %.rmd
+	Rscript -e 'rmarkdown::render("$<", "html_document")'
+
 # Render HTML from Markdown
 %.html: %.md
 	pandoc -o $@ $<
 
-# Render HTML from RMarkdown
-%.html: %.rmd
-
 # Change the resolution of the figure to 300 DPI
 %.png: %_files/figure-html/plot-NG50-1.png
 	convert $< -units PixelsPerInch -density 300 $@
-	Rscript -e 'rmarkdown::render("$<", "html_document")'
 
 # Dependencies
 
-assembly-stats.html: assembly-stats.tsv
+assembly-stats.html assembly-stats.md: assembly-stats.tsv
 
-quast-stats.html: ecoli.quast/transposed_report.tsv
+quast-stats.html quast-stats.md: ecoli.quast/transposed_report.tsv
