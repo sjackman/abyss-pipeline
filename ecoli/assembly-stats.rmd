@@ -46,15 +46,16 @@ data.name <- data %>%
 
 ggplot(data = data.name %>% filter(!is.na(Name))) +
 	aes(x = Stage, y = NG50, color = Name, group = Name) +
-	geom_point() +
-	geom_line() +
+	geom_point(size = 3) +
+	geom_line(size = 1.5) +
 	geom_hline(aes(yintercept = NG50, color = Name),
 		data = data.name %>% filter(Stage == "1"),
 		linetype = "dashed") +
+	xlim("unitigs", "contigs", "scaffolds", "scaftigs") +
 	scale_colour_brewer(palette = 'Set1') +
-	ylim(0, NA) +
-	theme_grey(24) +
-	theme(legend.position = c(.2, .9))
+	scale_y_continuous("NG50 (kbp)", limits = c(0, NA), labels = function(x) x / 1000) +
+	theme_grey(28) +
+	theme(legend.position = c(.25, .85))
 ```
 
 ```{r tabulate-data}
