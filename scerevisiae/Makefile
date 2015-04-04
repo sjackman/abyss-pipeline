@@ -2,7 +2,7 @@
 j=12
 
 # ABySS parameters
-k=512
+k=384
 K=96
 e=2
 E=1
@@ -267,6 +267,7 @@ assembly-stats.tsv: \
 		$(ref)-k128/scerevisiae-1.fa \
 		$(ref)-k192/scerevisiae-1.fa \
 		$(ref)-k256/scerevisiae-1.fa \
+		$(ref)-k384/scerevisiae-1.fa \
 		$(ref)-k512/scerevisiae-1.fa \
 		$(ref)-k1024/scerevisiae-1.fa \
 		$(ref)-depth1+/scerevisiae.bwa.fa \
@@ -274,26 +275,26 @@ assembly-stats.tsv: \
 		nanocorr/scerevisiae-long-scaffs.fa \
 		nanocorr/scerevisiae-scaftigs.fa \
 		k192/scerevisiae-unitigs.fa \
-		k512/scerevisiae-unitigs.fa \
-		k512-K96/scerevisiae-unitigs.fa \
-		k512-K96-sealer/scerevisiae-unitigs.fa \
+		k$k/scerevisiae-unitigs.fa \
+		k$k-K$K/scerevisiae-unitigs.fa \
+		k$k-K$K-sealer/scerevisiae-unitigs.fa \
 		k192/scerevisiae-long-scaffs.fa \
-		k512/scerevisiae-long-scaffs.fa \
-		k512-K96/scerevisiae-long-scaffs.fa \
-		k512-K96-sealer/scerevisiae-long-scaffs.fa \
+		k$k/scerevisiae-long-scaffs.fa \
+		k$k-K$K/scerevisiae-long-scaffs.fa \
+		k$k-K$K-sealer/scerevisiae-long-scaffs.fa \
 		k192/scerevisiae-scaftigs.fa \
-		k512/scerevisiae-scaftigs.fa \
-		k512-K96/scerevisiae-scaftigs.fa \
-		k512-K96-sealer/scerevisiae-scaftigs.fa
+		k$k/scerevisiae-scaftigs.fa \
+		k$k-K$K/scerevisiae-scaftigs.fa \
+		k$k-K$K-sealer/scerevisiae-scaftigs.fa
 	abyss-fac -e12157105 -s1000 $^ >$@
 
 # Analayze the assemblies using QUAST
 %.quast/transposed_report.tsv: \
 		nanocorr/scerevisiae-polished.fa.gz \
 		k192/scerevisiae-long-scaffs.fa \
-		k512/scerevisiae-long-scaffs.fa \
-		k512-K96/scerevisiae-long-scaffs.fa \
-		k512-K96-sealer/scerevisiae-long-scaffs.fa
+		k$k/scerevisiae-long-scaffs.fa \
+		k$k-K$K/scerevisiae-long-scaffs.fa \
+		k$k-K$K-sealer/scerevisiae-long-scaffs.fa
 	quast.py -T$j -esL -o $*.quast -R $(ref).fa -G $(ref).gff $^
 
 # Convert TSV to Markdown
