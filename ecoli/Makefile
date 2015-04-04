@@ -200,6 +200,10 @@ assembly-stats.tsv: k$k-K$K-sealer/ecoli-scaffolds.fa k$k-K$K-sealer/ecoli-scaft
 
 # Render HTML from RMarkdown
 %.html: %.rmd
+
+# Change the resolution of the figure to 300 DPI
+%.png: %_files/figure-html/plot-NG50-1.png
+	convert $< -units PixelsPerInch -density 300 $@
 	Rscript -e 'rmarkdown::render("$<", "html_document")'
 
 # Dependencies

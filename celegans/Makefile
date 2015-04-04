@@ -331,6 +331,10 @@ assembly-stats.tsv: \
 
 # Render HTML from Markdown
 %.html: %.md
+
+# Change the resolution of the figure to 300 DPI
+%.png: %_files/figure-html/plot-NG50-1.png
+	convert $< -units PixelsPerInch -density 300 $@
 	pandoc -o $@ $<
 
 # Dependencies
