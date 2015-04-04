@@ -52,7 +52,7 @@ ggplot(data = data.name %>%
 		linetype = "dashed") +
 	xlim("unitigs", "contigs", "scaffolds", "scaftigs") +
 	scale_y_continuous("NG50 (kbp)", limits = c(0, NA), labels = function(x) x / 1000) +
-	scale_colour_brewer(palette = 'Set1') +
+	scale_colour_brewer(palette = 'Dark2') +
 	theme_grey(28) +
 	theme(legend.position = c(.25, .85))
 ```

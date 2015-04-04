@@ -38,11 +38,9 @@ ggplot(data = data) +
 data.name <- data %>%
 	mutate(Name = factor(Directory,
 		levels = c("k192", "k384", "k384-K96-sealer",
-			"nanocorr",
-			"R64-k192", "R64-k384"),
+			"R64-k192", "R64-k384", "nanocorr"),
 		labels = c("ABySS 1.5.2 k=192", "ABySS 1.5.2 k=384", "ABySS 1.6.0 k=384 K=96",
-			"Nanocorr + Celera",
-			"Reference k=192", "Reference k=384"))) %>%
+			"Reference k=192", "Reference k=384", "Nanocorr + Celera"))) %>%
 	mutate(Stage = factor(Stage,
 		levels = c("1", "unitigs", "contigs", "long", "scaftigs"),
 		labels = c("1", "unitigs", "contigs", "scaffolds", "scaftigs")))
@@ -56,7 +54,7 @@ ggplot(data = data.name %>% filter(!is.na(Name))) +
 		linetype = "dashed") +
 	xlim("unitigs", "contigs", "scaffolds", "scaftigs") +
 	scale_y_continuous("NG50 (kbp)", limits = c(0, NA), labels = function(x) x / 1000) +
-	scale_colour_brewer(palette = 'Set1') +
+	scale_colour_brewer(palette = 'Dark2') +
 	theme_grey(28) +
 	theme(legend.position = c(.25, .85))
 ```
