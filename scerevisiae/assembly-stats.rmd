@@ -55,7 +55,7 @@ ggplot(data = data.name %>% filter(!is.na(Name))) +
 		data = data.name %>% filter(Stage == "1" & !is.na(Name)),
 		linetype = "dashed") +
 	xlim("unitigs", "contigs", "scaffolds", "scaftigs") +
-	ylim(0, NA) +
+	scale_y_continuous("NG50 (kbp)", limits = c(0, NA), labels = function(x) x / 1000) +
 	theme_grey(24) +
 	theme(legend.position = c(.2, .9))
 ```
