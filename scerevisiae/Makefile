@@ -217,6 +217,11 @@ k$k-K$K-scaff/%-long-scaffs.fa: k$k-K$K-scaff/%-scaffolds.fa
 scerevisiae.k%.bloom: data/W303_ONT_Nanocorr_Corrected_reads.fa.gz
 	abyss-bloom build -v -k$* -j$j -b500M -l2 $@ $^
 
+# Symlink the sealer unitigs
+k$k-K$K-sealer/%-unitigs.fa: k$k-K$K/%-unitigs.fa
+	mkdir -p k$k-K$K-sealer
+	ln -sf ../k$k-K$K/$*-unitigs.fa k$k-K$K-sealer/
+
 # Fill in gaps using ABySS-sealer
 k$k-K$K-sealer/%-long-scaffs.fa: k$k-K$K/%-long-scaffs.fa \
 		%.k25.bloom \
@@ -230,7 +235,6 @@ k$k-K$K-sealer/%-long-scaffs.fa: k$k-K$K/%-long-scaffs.fa \
 		%.k400.bloom \
 		%.k500.bloom
 	mkdir -p k$k-K$K-sealer
-	ln -sf ../k$k-K$K-scaff/$*-unitigs.fa k$k-K$K-sealer/
 	abyss-sealer -v -j$j \
 		--print-flanks \
 		--max-frag=2000 -L512 -k25 -k50 -k75 -k100 -k150 -k200 -k250 -k300 -k400 -k500 \
@@ -257,9 +261,9 @@ $(ref)-%/scerevisiae.bwa.fa: $(ref).W303_ONT_Nanocorr_Corrected_reads.sort.bam.%
 sga-m500/sga-contigs.fa: sga-m500/c-elegans_LongRead_all.bfc.preprocess.rmdup.sga-contigs.fa
 	ln -sf $(<F) $@
 
-nanocorr/scerevisiae-polished.fa.gz: data/W303_ONT_Assembly_CA_polished.fa.gz
+nanocorr/scerevisiae-long-scaffs.fa: data/W303_ONT_Assembly_CA_polished.fa.gz
 	mkdir -p $(@D)
-	ln -sf ../$< $@
+	gunzip -c $< |seqtk seq >$@
 
 # Calculate assembly statistics
 assembly-stats.tsv: \
