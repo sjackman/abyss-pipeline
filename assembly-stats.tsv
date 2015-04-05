@@ -1,0 +1,12 @@
+Species	Assembler	Scaffolds	Scaftigs
+E. coli	ABySS 1.5.2 k=64	133	107
+E. coli	ABySS 1.5.2 k=364	157	134
+E. coli	ABySS 1.6.0 k=364 K=32	176	176
+E. coli	SPAdes 3.1.1	204	204
+C. elegans	ABySS 1.5.2 k=192	408	77
+C. elegans	ABySS 1.5.2 k=512	475	83
+C. elegans	ABySS 1.6.0 k=512 K=96	347	73
+S. cerevisiae	ABySS 1.5.2 k=192	358	72
+S. cerevisiae	ABySS 1.5.2 k=384	185	65
+S. cerevisiae	ABySS 1.6.0 k=384 K=96	221	75
+S. cerevisiae	Nanocorr + Celera	586	586
