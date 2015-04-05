@@ -138,9 +138,13 @@ celera/%.frg: data/%.fastq.gz
 	fastqToCA -libraryname moleculo -technology moleculo -reads $< >$@
 
 # Assemble contigs using Celera Assembler
-celera/celegans.scf.fasta: celera/c-elegans_LongRead_500_1499nt.frg celera/c-elegans_LongRead.frg
+celera/9-terminator/celegans.scf.fasta: celera/c-elegans_LongRead_500_1499nt.frg celera/c-elegans_LongRead.frg
 	$(shell which time) -p \
 	runCA -d $(@D) -p celegans $^
+
+# Remove line breaks from the Celera scaffolds
+celera/celegans-scaffolds.fa: celera/9-terminator/celegans.scf.fasta
+	seqtk seq $< >$@
 
 # ABySS
 
