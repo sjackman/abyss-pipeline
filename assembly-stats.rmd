@@ -1,0 +1,76 @@
+---
+title: Assemblies of three species using an experimental ABySS pipeline
+author: Shaun Jackman
+date: 2015-04-05
+---
+
+```{r load-libraries, message = FALSE}
+library(dplyr)
+library(knitr)
+library(magrittr)
+library(tidyr)
+```
+
+```{r read-data}
+data.orig <- rbind(
+	read.delim("ecoli/assembly-stats.tsv", as.is = TRUE),
+	read.delim("celegans/assembly-stats.tsv", as.is = TRUE),
+	read.delim("scerevisiae/assembly-stats.tsv", as.is = TRUE))
+```
+
+```{r tidy-data}
+data <- data.orig %>%
+	filter(name %in% c(
+		"k64/ecoli-scaffolds.fa", "k64/ecoli-scaftigs.fa",
+		"k364/ecoli-scaffolds.fa", "k364/ecoli-scaftigs.fa",
+		"k364-K32-sealer/ecoli-scaffolds.fa", "k364-K32-sealer/ecoli-scaftigs.fa",
+		"SPAdes 3.1.1/ecoli-scaffolds.fa",
+		"SPAdes 3.1.1/ecoli-scaftigs.fa",
+		"k192/celegans-scaffolds.fa", "k192/celegans-scaftigs.fa",
+		"k512/celegans-scaffolds.fa", "k512/celegans-scaftigs.fa",
+		"k512-K96-sealer/celegans-scaffolds.fa", "k512-K96-sealer/celegans-scaftigs.fa",
+		"k192/scerevisiae-long-scaffs.fa", "k192/scerevisiae-scaftigs.fa",
+		"k384/scerevisiae-long-scaffs.fa", "k384/scerevisiae-scaftigs.fa",
+		"k384-K96-sealer/scerevisiae-long-scaffs.fa", "k384-K96-sealer/scerevisiae-scaftigs.fa",
+		"nanocorr/scerevisiae-long-scaffs.fa",
+		"nanocorr/scerevisiae-scaftigs.fa")) %>%
+	separate(name, c("Directory", "File"), "/") %>%
+	separate(File, c("Species", "Stage"), extra = "drop") %>%
+	mutate(Stage = factor(R.utils::capitalize(Stage))) %>%
+	mutate(Species = factor(Species,
+		levels = c("ecoli", "celegans", "scerevisiae"),
+		labels = c("E. coli", "C. elegans", "S. cerevisiae"))) %>%
+	mutate(Assembler = factor(Directory,
+		levels = c(
+			"k64", "k364", "k364-K32-sealer",
+			"k192", "k512", "k512-K96-sealer",
+			"k384", "k384-K96-sealer",
+			"SPAdes 3.1.1", "nanocorr"),
+		labels = c(
+			"ABySS 1.5.2 k=64", "ABySS 1.5.2 k=364", "ABySS 1.6.0 k=364 K=32",
+			"ABySS 1.5.2 k=192", "ABySS 1.5.2 k=512", "ABySS 1.6.0 k=512 K=96",
+			"ABySS 1.5.2 k=384", "ABySS 1.6.0 k=384 K=96",
+			"SPAdes 3.1.1", "Nanocorr + Celera"))) %>%
+	mutate(NG50 = round(NG50 / 1000)) %>%
+	select(Species, Assembler, Stage, NG50)
+
+# Rename Long to Scaffolds
+data$Stage[data$Stage == "Long"] <- "Scaffolds"
+data$Stage %<>% droplevels
+
+data %<>% spread(Stage, NG50)
+```
+
+```{r summarize-data}
+options(width = 100)
+summary(data, maxsum = 10)
+```
+
+```{r tabulate-data}
+kable(data)
+```
+
+```{r write-data}
+write.table(data, "assembly-stats.tsv",
+	quote = FALSE, sep = "\t", row.names = FALSE)
+```
