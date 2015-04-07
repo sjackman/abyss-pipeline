@@ -1,4 +1,4 @@
-all: assembly-stats.html
+all: assembly-stats.html poster.html
 
 .PHONY: all
 .DELETE_ON_ERROR:
