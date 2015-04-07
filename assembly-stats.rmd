@@ -29,6 +29,7 @@ data <- data.orig %>%
 		"k192/celegans-scaffolds.fa", "k192/celegans-scaftigs.fa",
 		"k512/celegans-scaffolds.fa", "k512/celegans-scaftigs.fa",
 		"k512-K96-sealer/celegans-scaffolds.fa", "k512-K96-sealer/celegans-scaftigs.fa",
+		"celera/celegans-scaffolds.fa", "celera/celegans-scaftigs.fa",
 		"k192/scerevisiae-long-scaffs.fa", "k192/scerevisiae-scaftigs.fa",
 		"k384/scerevisiae-long-scaffs.fa", "k384/scerevisiae-scaftigs.fa",
 		"k384-K96-sealer/scerevisiae-long-scaffs.fa", "k384-K96-sealer/scerevisiae-scaftigs.fa",
@@ -45,12 +46,12 @@ data <- data.orig %>%
 			"k64", "k364", "k364-K32-sealer",
 			"k192", "k512", "k512-K96-sealer",
 			"k384", "k384-K96-sealer",
-			"SPAdes 3.1.1", "nanocorr"),
+			"SPAdes 3.1.1", "celera", "nanocorr"),
 		labels = c(
 			"ABySS 1.5.2 k=64", "ABySS 1.5.2 k=364", "ABySS 1.6.0 k=364 K=32",
 			"ABySS 1.5.2 k=192", "ABySS 1.5.2 k=512", "ABySS 1.6.0 k=512 K=96",
 			"ABySS 1.5.2 k=384", "ABySS 1.6.0 k=384 K=96",
-			"SPAdes 3.1.1", "Nanocorr + Celera"))) %>%
+			"SPAdes 3.1.1", "Celera Assembler 8.3rc1", "Nanocorr + Celera"))) %>%
 	mutate(NG50 = round(NG50 / 1000)) %>%
 	select(Species, Assembler, Stage, NG50)
 
