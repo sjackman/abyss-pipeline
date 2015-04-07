@@ -24,11 +24,11 @@ Methods
 ================================================================================
 
 + **Spaced seed dBG** stores the first and last few nucleotides of each *k*-mer
-+ For example, two 32-mer separate by 300 nt gap of a 364-mer
-+ Uses a fifth the memory of standard dBG
++ For example, a 364-mer of two 32-mer separated by a 300 nucleotide gap
++ Uses a fraction the memory of standard dBG
 + **ABySS-Sealer** fills scaffold gaps
 + Navigates a path between contigs through a Bloom filter dBG
-+ Memory efficiency permits using multiple filters
++ Memory efficiency permits using multiple Bloom filter dBG for different values of k
 + Small *k* span low-coverage regions
 + Large *k* resolve repeats
 
