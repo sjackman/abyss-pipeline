@@ -91,8 +91,10 @@ Species         | Accession           | Genome size | Read length       | Reads 
 Results
 ================================================================================
 
-```{r results-table, echo = FALSE}
-data <- read.delim("assembly-stats.tsv", sep = "\t")
+```{r results-table, echo = FALSE, message = FALSE}
+assembly_stats <- read.delim("assembly-stats.tsv", sep = "\t", as.is = TRUE)
+memory_stats <- read.delim("memory-stats.tsv", sep = "\t", as.is = TRUE, check.names = FALSE)
+data <- dplyr::left_join(assembly_stats, memory_stats)
 knitr::kable(data)
 ```
 
