@@ -1,0 +1,14 @@
+#!/bin/sh
+#$ -S /bin/bash
+#$ -N celegans-bloom
+#$ -j y
+#$ -o log/$JOB_NAME.$JOB_ID.$TASK_ID
+#$ -q centos5.q
+
+set -eux
+PATH=/home/sjackman/src/abyss/_xhost-k512/bin:$PATH
+which abyss-bloom
+abyss-bloom --version
+
+k=$SGE_TASK_ID
+exec make celegans.k$k.bloom "$@"
