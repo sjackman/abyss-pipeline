@@ -54,6 +54,10 @@ data/c-elegans_LongRead.fastq.gz:
 data/c-elegans_LongRead_all.fastq.gz: data/c-elegans_LongRead_500_1499nt.fastq.gz data/c-elegans_LongRead.fastq.gz
 	cat $^ >$@
 
+# Symlink the unassembled Moleculo reads.
+data/c-elegans-24505713.gz: /projects/btl/datasets/celegans/basespace-22107089/c-elegans-24505713.gz
+	ln -sf $< $@
+
 # ERX046316 2.5 kbp mate-pair
 data/ERR068453_%.fastq.bz2:
 	curl -o $@ ftp://ftp.ddbj.nig.ac.jp/ddbj_database/dra/fastq/ERA081/ERA081001/ERX046316/$(@F)
@@ -238,8 +242,13 @@ k$k-K$K-scaff/%-long-scaffs.fa: k$k-K$K-scaff/%-scaffolds.fa
 		long=moleculo moleculo='../data/c-elegans_LongRead_all.fastq.gz'
 
 # Construct a Bloom filter
-celegans.k%.bloom: data/c-elegans_LongRead_500_1499nt.fastq.gz data/c-elegans_LongRead.fastq.gz
-	abyss-bloom build -v -k$* -j$j -b500M -l2 $@ $^
+celegans.k%.bloom: data/c-elegans_LongRead_500_1499nt.fastq.gz data/c-elegans_LongRead.fastq.gz data/c-elegans-24505713.gz
+	abyss-bloom build -v -k$* -j$j -b4G -l2 $@ $^
+
+# Symlink the sealer unitigs
+k$k-K$K-sealer/%-unitigs.fa: k$k-K$K/%-unitigs.fa
+	mkdir -p k$k-K$K-sealer
+	ln -sf ../k$k-K$K/$*-unitigs.fa k$k-K$K-sealer/
 
 # Fill in gaps using ABySS-sealer
 k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K-scaff/%-scaffolds.fa \
@@ -254,7 +263,6 @@ k$k-K$K-sealer/%-scaffolds.fa: k$k-K$K-scaff/%-scaffolds.fa \
 		%.k400.bloom \
 		%.k500.bloom
 	mkdir -p k$k-K$K-sealer
-	ln -sf ../k$k-K$K-scaff/$*-unitigs.fa k$k-K$K-sealer/
 	abyss-sealer -v -j$j \
 		--print-flanks \
 		--max-frag=2000 -L512 -k25 -k50 -k75 -k100 -k150 -k200 -k250 -k300 -k400 -k500 \
