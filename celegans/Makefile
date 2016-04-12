@@ -158,7 +158,7 @@ miniasm/%.paf.gz: data/%.fastq.gz
 
 # Layout reads using miniasm
 miniasm/%.gfa: miniasm/%.paf.gz data/%.fastq.gz
-	miniasm -f data/$*.fastq.gz $< >$@
+	miniasm -m500 -s1000 -i0.8 -f data/$*.fastq.gz $< >$@
 
 # Convert GFA to FASTA
 miniasm/celegans-scaffolds.fa: miniasm/c-elegans_LongRead_all.gfa
