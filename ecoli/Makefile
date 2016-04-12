@@ -174,6 +174,10 @@ assembly-stats.tsv: k$k-K$K-sealer/ecoli-scaffolds.fa k$k-K$K-sealer/ecoli-scaft
 		k64/ecoli-contigs.fa \
 		k64/ecoli-scaffolds.fa \
 		k64/ecoli-scaftigs.fa \
+		k200/ecoli-unitigs.fa \
+		k200/ecoli-contigs.fa \
+		k200/ecoli-scaffolds.fa \
+		k200/ecoli-scaftigs.fa \
 		k$k/ecoli-unitigs.fa \
 		k$k/ecoli-contigs.fa \
 		k$k/ecoli-scaffolds.fa \
