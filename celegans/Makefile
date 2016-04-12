@@ -150,6 +150,20 @@ celera/9-terminator/celegans.scf.fasta: celera/c-elegans_LongRead_500_1499nt.frg
 celera/celegans-scaffolds.fa: celera/9-terminator/celegans.scf.fasta
 	seqtk seq $< >$@
 
+# miniasm
+
+# Find overlapping reads using minimap
+miniasm/%.paf.gz: data/%.fastq.gz
+	minimap -S -t$j $< $< |gzip >$@
+
+# Layout reads using miniasm
+miniasm/%.gfa: miniasm/%.paf.gz data/%.fastq.gz
+	miniasm -f data/$*.fastq.gz $< >$@
+
+# Convert GFA to FASTA
+miniasm/celegans-scaffolds.fa: miniasm/c-elegans_LongRead_all.gfa
+	awk '$$1 == "S" {print ">" $$2 " " $$4 "\n" $$3}' $< >$@
+
 # ABySS
 
 # Merge overlapping reads using abyss-mergepairs
@@ -320,7 +334,11 @@ assembly-stats.tsv: \
 		k512-K96-scaff/celegans-long-scaffs.fa \
 		k512-K96-sealer/celegans-unitigs.fa \
 		k512-K96-sealer/celegans-scaffolds.fa \
-		k512-K96-sealer/celegans-scaftigs.fa
+		k512-K96-sealer/celegans-scaftigs.fa \
+		celera/celegans-scaffolds.fa \
+		celera/celegans-scaftigs.fa \
+		miniasm/celegans-scaffolds.fa \
+		miniasm/celegans-scaftigs.fa
 	abyss-fac -e100286401 -s1000 $^ >$@
 
 # Analayze the assemblies using QUAST
