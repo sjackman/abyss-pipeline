@@ -164,6 +164,16 @@ miniasm/%.gfa: miniasm/%.paf.gz data/%.fastq.gz
 miniasm/celegans-scaffolds.fa: miniasm/c-elegans_LongRead_all.gfa
 	awk '$$1 == "S" {print ">" $$2 " " $$4 "\n" $$3}' $< >$@
 
+# Canu
+
+# Assemble the reads using Canu
+canu/celegans.contigs.fasta: data/c-elegans_LongRead_all.fastq.gz
+	canu -d canu -p celegans genomeSize=100286401 -pacbio-corrected $<
+
+# Remove line breaks
+canu/celegans-scaffolds.fa: canu/celegans.contigs.fasta
+	seqtk seq $< >$@
+
 # ABySS
 
 # Merge overlapping reads using abyss-mergepairs
@@ -337,6 +347,8 @@ assembly-stats.tsv: \
 		k512-K96-sealer/celegans-scaftigs.fa \
 		celera/celegans-scaffolds.fa \
 		celera/celegans-scaftigs.fa \
+		canu/celegans-scaffolds.fa \
+		canu/celegans-scaftigs.fa \
 		miniasm/celegans-scaffolds.fa \
 		miniasm/celegans-scaftigs.fa
 	abyss-fac -e100286401 -s1000 $^ >$@
